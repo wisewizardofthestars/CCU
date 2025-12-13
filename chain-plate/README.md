@@ -1,6 +1,4 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#Se der problemas a fazer npm start, correr além de npm install, também npm install --legacy-peer-deps
 
 ## Available Scripts
 
