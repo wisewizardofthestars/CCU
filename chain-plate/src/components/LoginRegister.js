@@ -1,6 +1,6 @@
 import React from "react";
 
-function LoginRegister({ onRegisterClick }) {
+function LoginRegister({ onLoginClick,onRegisterClick }) {
   return (
     <div className="relative w-[360px] h-[640px] mx-auto bg-white">
       {/* Status Bar */}
@@ -43,7 +43,7 @@ function LoginRegister({ onRegisterClick }) {
 
       {/* Login Button */}
       <div className="absolute left-[105px] top-[374px] w-[150px] h-[35px]">
-        <button className="w-full h-full rounded-[10px] border-[0.6px] border-[rgba(69,173,161,0.45)] shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] flex items-center justify-center transition hover:opacity-90" style={{ backgroundColor: '#45ADA1' }}>
+        <button onClick={onLoginClick} className="w-full h-full rounded-[10px] border-[0.6px] border-[rgba(69,173,161,0.45)] shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] flex items-center justify-center transition hover:opacity-90" style={{ backgroundColor: '#45ADA1' }}>
           <span
             className="text-white text-[20px] font-medium"
             style={{ fontFamily: 'Outfit, -apple-system, Roboto, Helvetica, sans-serif', fontWeight: 500 }}

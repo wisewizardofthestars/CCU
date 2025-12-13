@@ -5,6 +5,8 @@ import ProducerDashboard from "./components/ProducerDashboard";
 import LoginPage from "./components/LoginPage";
 import HomeConsumer from "./components/HomeConsumer";
 import LoadingPage from "./components/LoadingPage";
+import LoginRegister from "./components/LoginRegister";
+import RegisterConsumer from "./components/RegisterConsumer";
 
 function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -12,6 +14,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [consumerView, setConsumerView] = useState("home"); // 'home' or 'scanner'
   const [isLoading, setIsLoading] = useState(true);
+  const [authView, setAuthView] = useState("login"); // 'login' | 'register'
 
   const handleLogin = (userView) => {
     setIsLoggedIn(true);
@@ -26,9 +29,28 @@ function App() {
     return <LoadingPage onLoadComplete={handleLoadComplete} />;
   }
 
-  if (!isLoggedIn) {
-    return <LoginPage onLogin={handleLogin} />;
+  //if (!isLoggedIn) {
+   // return <LoginPage onLogin={handleLogin} />;
+  //}
+
+
+ if (!isLoggedIn) {
+    return authView === "login" ? (
+      <LoginRegister
+        onLoginClick={() => {
+          setIsLoggedIn(true);
+          setView("consumer");
+        }}
+        onRegisterClick={() => setAuthView("register")} // <-- switch to register page
+      />
+    ) : (
+      <RegisterConsumer
+        onBack={() => setAuthView("login")} // go back to login page
+        onLoginClick={() => setAuthView("login")} // "Already have an account?" button
+      />
+    );
   }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
