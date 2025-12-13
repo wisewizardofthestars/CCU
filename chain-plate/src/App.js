@@ -7,6 +7,7 @@ import HomeConsumer from "./components/HomeConsumer";
 import LoadingPage from "./components/LoadingPage";
 import LoginRegister from "./components/LoginRegister";
 import RegisterConsumer from "./components/RegisterConsumer";
+import LoginForm from "./components/LoginForm";
 
 function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -14,7 +15,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [consumerView, setConsumerView] = useState("home"); // 'home' or 'scanner'
   const [isLoading, setIsLoading] = useState(true);
-  const [authView, setAuthView] = useState("login"); // 'login' | 'register'
+  const [authView, setAuthView] = useState("landing"); // 'landing' | 'login' | 'register'
 
   const handleLogin = (userView) => {
     setIsLoggedIn(true);
@@ -30,27 +31,37 @@ function App() {
   }
 
   //if (!isLoggedIn) {
-   // return <LoginPage onLogin={handleLogin} />;
+  // return <LoginPage onLogin={handleLogin} />;
   //}
 
-
- if (!isLoggedIn) {
-    return authView === "login" ? (
-      <LoginRegister
-        onLoginClick={() => {
-          setIsLoggedIn(true);
-          setView("consumer");
-        }}
-        onRegisterClick={() => setAuthView("register")} // <-- switch to register page
-      />
-    ) : (
-      <RegisterConsumer
-        onBack={() => setAuthView("login")} // go back to login page
-        onLoginClick={() => setAuthView("login")} // "Already have an account?" button
-      />
-    );
+  if (!isLoggedIn) {
+    if (authView === "landing") {
+      return (
+        <LoginRegister
+          onLoginClick={() => setAuthView("login")}
+          onRegisterClick={() => setAuthView("register")}
+        />
+      );
+    } else if (authView === "login") {
+      return (
+        <LoginForm
+          onBack={() => setAuthView("landing")}
+          onLoginSuccess={() => {
+            setIsLoggedIn(true);
+            setView("consumer");
+          }}
+          onRegisterClick={() => setAuthView("register")}
+        />
+      );
+    } else {
+      return (
+        <RegisterConsumer
+          onBack={() => setAuthView("landing")}
+          onLoginClick={() => setAuthView("login")}
+        />
+      );
+    }
   }
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
