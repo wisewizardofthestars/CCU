@@ -795,7 +795,7 @@ function HomeConsumer() {
           </span>
         </button>
 
-        <button 
+        <button
           onClick={handleNavigateToSaved}
           className="flex flex-col items-center gap-1 hover:scale-110 transition"
         >
