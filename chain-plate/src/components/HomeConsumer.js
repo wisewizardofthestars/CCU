@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import AllProducts from "./AllProducts";
 import AllProducers from "./AllProducers";
 import AllFarms from "./AllFarms";
@@ -6,6 +6,7 @@ import MapPage from "./MapPage";
 import UserProfile from "./UserProfile";
 import SavedPage from "./SavedPage";
 import PurchasesPage from "./PurchasesPage";
+import PointsPage from "./PointsPage";
 
 const API_URL = "http://localhost:3001";
 
@@ -60,6 +61,41 @@ function HomeConsumer() {
     };
 
     fetchData();
+  }, []);
+
+  // Refresh liked products from database
+  const refreshLikedProducts = async () => {
+    const userId = localStorage.getItem("currentUserId");
+    if (userId) {
+      try {
+        const userRes = await fetch(`${API_URL}/users/${userId}`);
+        const userData = await userRes.json();
+        const likedProdIds = userData.likedProducts?.map((p) => p.id) || [];
+        const likedProdcerIds =
+          userData.likedProducts
+            ?.filter((p) => p.producerId)
+            .map((p) => p.producerId) || [];
+        setLikedProductIds(likedProdIds);
+        setLikedProducerIds(likedProdcerIds);
+      } catch (error) {
+        console.error("Error refreshing liked products:", error);
+      }
+    }
+  };
+
+  // Handle navigating to saved products page
+  const handleNavigateToSaved = useCallback(async () => {
+    const userId = localStorage.getItem("currentUserId");
+    if (userId) {
+      try {
+        const userRes = await fetch(`${API_URL}/users/${userId}`);
+        const userData = await userRes.json();
+        setSavedProductsData(userData.likedProducts || []);
+        setDetailView("saved");
+      } catch (error) {
+        console.error("Error fetching saved products:", error);
+      }
+    }
   }, []);
 
   // Handle liking/unliking products
@@ -229,8 +265,9 @@ function HomeConsumer() {
   if (detailView === "saved") {
     return (
       <SavedPage
-        onBack={() => setDetailView("profile")}
+        onBack={() => setDetailView(null)}
         savedProducts={savedProductsData}
+        onProductUnliked={refreshLikedProducts}
       />
     );
   }
@@ -239,6 +276,16 @@ function HomeConsumer() {
       <PurchasesPage
         onBack={() => setDetailView("profile")}
         pastPurchases={purchasesData}
+      />
+    );
+  }
+  if (detailView === "points") {
+    return (
+      <PointsPage
+        onBack={() => setDetailView(null)}
+        onNavigateToHome={() => setDetailView(null)}
+        onNavigateToMap={() => setDetailView("map")}
+        onNavigateToSaved={handleNavigateToSaved}
       />
     );
   }
@@ -555,7 +602,7 @@ function HomeConsumer() {
                       e.stopPropagation();
                       handleLikeProduct(product);
                     }}
-                    className="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition shadow-sm"
+                    className="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white hover:scale-110 transition-all shadow-sm group/heart"
                   >
                     <svg
                       width="18"
@@ -566,6 +613,7 @@ function HomeConsumer() {
                           ? "#ef4444"
                           : "none"
                       }
+                      className="group-hover/heart:scale-110 transition-transform"
                     >
                       <path
                         d="M17.3667 3.84166C16.9411 3.41583 16.4357 3.07803 15.8795 2.84757C15.3233 2.6171 14.7271 2.49847 14.1251 2.49847C13.523 2.49847 12.9268 2.6171 12.3706 2.84757C11.8144 3.07803 11.309 3.41583 10.8834 3.84166L10.0001 4.725L9.11673 3.84166C8.25698 2.98192 7.09092 2.49892 5.87506 2.49892C4.6592 2.49892 3.49314 2.98192 2.63339 3.84166C1.77365 4.70141 1.29065 5.86747 1.29065 7.08333C1.29065 8.29919 1.77365 9.46525 2.63339 10.325L10.0001 17.6917L17.3667 10.325C17.7926 9.89937 18.1304 9.39401 18.3608 8.83779C18.5913 8.28158 18.7099 7.6854 18.7099 7.08333C18.7099 6.48126 18.5913 5.88508 18.3608 5.32887C18.1304 4.77265 17.7926 4.26729 17.3667 3.84166Z"
@@ -624,7 +672,7 @@ function HomeConsumer() {
                       e.stopPropagation();
                       handleLikeProducer(producer);
                     }}
-                    className="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition shadow-sm"
+                    className="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white hover:scale-110 transition-all shadow-sm group/heart"
                   >
                     <svg
                       width="18"
@@ -635,6 +683,7 @@ function HomeConsumer() {
                           ? "#ef4444"
                           : "none"
                       }
+                      className="group-hover/heart:scale-110 transition-transform"
                     >
                       <path
                         d="M17.3667 3.84166C16.9411 3.41583 16.4357 3.07803 15.8795 2.84757C15.3233 2.6171 14.7271 2.49847 14.1251 2.49847C13.523 2.49847 12.9268 2.6171 12.3706 2.84757C11.8144 3.07803 11.309 3.41583 10.8834 3.84166L10.0001 4.725L9.11673 3.84166C8.25698 2.98192 7.09092 2.49892 5.87506 2.49892C4.6592 2.49892 3.49314 2.98192 2.63339 3.84166C1.77365 4.70141 1.29065 5.86747 1.29065 7.08333C1.29065 8.29919 1.77365 9.46525 2.63339 10.325L10.0001 17.6917L17.3667 10.325C17.7926 9.89937 18.1304 9.39401 18.3608 8.83779C18.5913 8.28158 18.7099 7.6854 18.7099 7.08333C18.7099 6.48126 18.5913 5.88508 18.3608 5.32887C18.1304 4.77265 17.7926 4.26729 17.3667 3.84166Z"
@@ -746,7 +795,10 @@ function HomeConsumer() {
           </span>
         </button>
 
-        <button className="flex flex-col items-center gap-1 hover:scale-110 transition">
+        <button 
+          onClick={handleNavigateToSaved}
+          className="flex flex-col items-center gap-1 hover:scale-110 transition"
+        >
           <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
             <path
               d="M27.7867 6.14666C27.1057 5.46533 26.2971 4.92485 25.4071 4.5561C24.5172 4.18735 23.5633 3.99756 22.6 3.99756C21.6367 3.99756 20.6828 4.18735 19.7929 4.5561C18.9029 4.92485 18.0943 5.46533 17.4133 6.14666L16 7.55999L14.5867 6.14666C13.2111 4.77107 11.3454 3.99827 9.4 3.99827C7.45462 3.99827 5.58892 4.77107 4.21333 6.14666C2.83774 7.52225 2.06494 9.38795 2.06494 11.3333C2.06494 13.2787 2.83774 15.1444 4.21333 16.52L16 28.3067L27.7867 16.52C28.468 15.839 29.0085 15.0304 29.3772 14.1405C29.746 13.2505 29.9358 12.2966 29.9358 11.3333C29.9358 10.37 29.746 9.41613 29.3772 8.52619C29.0085 7.63624 28.468 6.82767 27.7867 6.14666Z"
@@ -761,7 +813,10 @@ function HomeConsumer() {
           </span>
         </button>
 
-        <button className="flex flex-col items-center gap-1 hover:scale-110 transition">
+        <button
+          onClick={() => setDetailView("points")}
+          className="flex flex-col items-center gap-1 hover:scale-110 transition"
+        >
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
             <path
               d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"

@@ -1,5 +1,6 @@
 #Se der problemas a fazer npm start, correr além de npm install, também npm install --legacy-peer-deps
 
+#noutro terminal fazer npm run server
 ## Available Scripts
 
 In the project directory, you can run:

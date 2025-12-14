@@ -1,6 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 
-function SavedPage({ onBack, savedProducts = [] }) {
+function SavedPage({ onBack, savedProducts = [], onProductUnliked }) {
+  const [displayedProducts, setDisplayedProducts] = useState(savedProducts);
+
+  const handleUnlike = async (productId) => {
+    const userId = localStorage.getItem("currentUserId");
+    if (!userId) return;
+
+    try {
+      const response = await fetch(`http://localhost:3001/users/${userId}`);
+      const userData = await response.json();
+
+      const updatedLikedProducts = userData.likedProducts.filter(
+        (p) => p.id !== productId
+      );
+
+      await fetch(`http://localhost:3001/users/${userId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          likedProducts: updatedLikedProducts,
+          savedItems: updatedLikedProducts.length,
+        }),
+      });
+
+      setDisplayedProducts(displayedProducts.filter((p) => p.id !== productId));
+
+      // Notify parent to refresh liked products
+      if (onProductUnliked) {
+        onProductUnliked();
+      }
+    } catch (error) {
+      console.error("Error unliking product:", error);
+    }
+  };
   return (
     <div className="w-full max-w-[360px] mx-auto h-screen bg-white relative flex flex-col font-['Outfit']">
       {/* Status Bar */}
@@ -56,11 +89,11 @@ function SavedPage({ onBack, savedProducts = [] }) {
       <div className="flex-1 overflow-y-auto bg-[#F5F5F5] pb-20">
         <div className="px-4 py-6">
           <p className="text-gray-500 font-['Outfit'] text-[14px] mb-4">
-            {savedProducts.length} saved{" "}
-            {savedProducts.length === 1 ? "item" : "items"}
+            {displayedProducts.length} saved{" "}
+            {displayedProducts.length === 1 ? "item" : "items"}
           </p>
           <div className="space-y-3">
-            {savedProducts.map((product) => (
+            {displayedProducts.map((product) => (
               <div
                 key={product.id}
                 className="bg-white rounded-2xl shadow-md p-4 flex items-center gap-3 group hover:shadow-lg transition hover:scale-[1.02]"
@@ -92,12 +125,16 @@ function SavedPage({ onBack, savedProducts = [] }) {
                   <div className="text-[#45ADA1] font-['Outfit'] text-[18px] font-bold">
                     {product.price}
                   </div>
-                  <button className="p-2 hover:bg-red-50 rounded-full transition group">
+                  <button
+                    onClick={() => handleUnlike(product.id)}
+                    className="p-2 hover:bg-red-50 rounded-full transition group/heart"
+                  >
                     <svg
                       width="20"
                       height="20"
                       viewBox="0 0 24 24"
                       fill="#ef4444"
+                      className="group-hover/heart:scale-110 transition-transform"
                     >
                       <path
                         d="M20.84 4.61C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.57831 8.50903 2.9987 7.05 2.9987C5.59096 2.9987 4.19169 3.57831 3.16 4.61C2.1283 5.64169 1.54869 7.04097 1.54869 8.5C1.54869 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7563 11.2728 22.0329 10.6053C22.3095 9.93789 22.4518 9.22248 22.4518 8.5C22.4518 7.77752 22.3095 7.06211 22.0329 6.39467C21.7563 5.72723 21.351 5.12087 20.84 4.61Z"
@@ -113,91 +150,6 @@ function SavedPage({ onBack, savedProducts = [] }) {
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Bottom Navigation */}
-      <div className="absolute bottom-0 w-full bg-white border-t border-[#D9D9D9] h-[60px] flex items-center justify-around px-4 flex-shrink-0">
-        <button className="flex flex-col items-center gap-1 group">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
-              stroke="#8E8E8E"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M9 22V12H15V22"
-              stroke="#8E8E8E"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span className="text-[10px] text-[#8E8E8E] font-['Outfit']">
-            Home
-          </span>
-        </button>
-
-        <button className="flex flex-col items-center gap-1 group">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="#45ADA1">
-            <path
-              d="M20.84 4.61C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.57831 8.50903 2.9987 7.05 2.9987C5.59096 2.9987 4.19169 3.57831 3.16 4.61C2.1283 5.64169 1.54869 7.04097 1.54869 8.5C1.54869 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7563 11.2728 22.0329 10.6053C22.3095 9.93789 22.4518 9.22248 22.4518 8.5C22.4518 7.77752 22.3095 7.06211 22.0329 6.39467C21.7563 5.72723 21.351 5.12087 20.84 4.61Z"
-              stroke="#45ADA1"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span className="text-[10px] text-[#45ADA1] font-['Outfit'] font-medium">
-            Saved
-          </span>
-        </button>
-
-        <button className="flex flex-col items-center gap-1 -mt-6">
-          <div className="w-14 h-14 bg-[#45ADA1] rounded-full flex items-center justify-center shadow-lg">
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="2"
-            >
-              <path d="M12 5V19M5 12H19" strokeLinecap="round" />
-            </svg>
-          </div>
-        </button>
-
-        <button className="flex flex-col items-center gap-1 group">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M9 20L3 17V4L9 7M9 20L15 17M9 20V7M15 17L21 20V7L15 4M15 17V4M9 7L15 4"
-              stroke="#8E8E8E"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span className="text-[10px] text-[#8E8E8E] font-['Outfit']">
-            Map
-          </span>
-        </button>
-
-        <button className="flex flex-col items-center gap-1 group">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-              stroke="#8E8E8E"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span className="text-[10px] text-[#8E8E8E] font-['Outfit']">
-            Rewards
-          </span>
-        </button>
       </div>
     </div>
   );
