@@ -1,146 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-const API_URL = "http://localhost:3001";
-
-function AllProducers({ onBack, selectedFilter, onFilterChange }) {
-  const [producers, setProducers] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchProducers = async () => {
-      try {
-        const response = await fetch(`${API_URL}/producers`);
-        const data = await response.json();
-        setProducers(data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching producers:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchProducers();
-  }, []);
-
-  const filteredProducers = selectedFilter
-    ? producers.filter((p) => p.tags && p.tags.includes(selectedFilter))
-    : producers;
-
-  const handleFilterClick = (filter) => {
-    onFilterChange(selectedFilter === filter ? null : filter);
-  };
-
-  if (loading) {
-    return (
-      <div className="w-full max-w-[360px] mx-auto h-screen bg-white flex items-center justify-center">
-        <div className="text-[#45ADA1] font-['Outfit'] text-[18px] font-semibold">
-          Loading...
-        </div>
-      </div>
-    );
-  }
-
-  const oldProducers = [
-    {
-      id: 1,
-      name: "Quinta",
-      subtitle: "do Monte",
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/1aaf313f9e80bb6a0b43eeee76b2823d85d60e90?width=100",
-      distance: "0.3 km",
-    },
-    {
-      id: 2,
-      name: "Quinta",
-      subtitle: "da Praia",
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/b7c76baa0e5be8c5f29889f8b75d82ab903638f8?width=100",
-      distance: "1.2 km",
-    },
-    {
-      id: 3,
-      name: "Quinta",
-      subtitle: "da Serra",
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/76bef47eb5c82b8c4e6dde27d1b2f2edf3a54e1b?width=100",
-      distance: "2.1 km",
-    },
-    {
-      id: 4,
-      name: "Quinta",
-      subtitle: "do Vale",
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/1aaf313f9e80bb6a0b43eeee76b2823d85d60e90?width=100",
-      distance: "3.5 km",
-    },
-    {
-      id: 5,
-      name: "Quinta",
-      subtitle: "do Sol",
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/b7c76baa0e5be8c5f29889f8b75d82ab903638f8?width=100",
-      distance: "0.8 km",
-    },
-    {
-      id: 6,
-      name: "Quinta",
-      subtitle: "da Lua",
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/76bef47eb5c82b8c4e6dde27d1b2f2edf3a54e1b?width=100",
-      distance: "1.9 km",
-    },
-    {
-      id: 7,
-      name: "Quinta",
-      subtitle: "do Rio",
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/1aaf313f9e80bb6a0b43eeee76b2823d85d60e90?width=100",
-      distance: "2.7 km",
-    },
-    {
-      id: 8,
-      name: "Quinta",
-      distance: "3.2 km",
-    },
-  ];
-
+function MapPage({ onBack }) {
   return (
     <div className="w-full max-w-[360px] mx-auto h-screen bg-white relative flex flex-col font-['Outfit']">
       {/* Status Bar */}
       <div className="w-full h-[37px] border-b border-[#D9D9D9] bg-white flex items-center justify-between px-2 flex-shrink-0 z-20">
         <div className="text-base font-normal text-black">16:20</div>
         <div className="flex items-center gap-[5px]">
-          <svg
-            width="15"
-            height="11"
-            viewBox="0 0 16 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg width="15" height="11" viewBox="0 0 16 12" fill="none">
             <path
               d="M7.7998 9.25C8.35209 9.25 8.7998 9.69771 8.7998 10.25C8.7998 10.8023 8.35209 11.25 7.7998 11.25C7.24763 11.2499 6.7998 10.8022 6.7998 10.25C6.7998 9.6978 7.24763 9.25013 7.7998 9.25ZM7.70898 6C9.07307 6.00013 10.2976 6.6022 11.1299 7.55078C11.4213 7.8829 11.3888 8.38829 11.0566 8.67969C10.7245 8.97094 10.2191 8.93753 9.92773 8.60547C9.38611 7.98818 8.59319 7.59961 7.70898 7.59961H7.70801C7.28832 7.59915 6.87349 7.68911 6.49121 7.8623C6.10888 8.03557 5.76759 8.28856 5.49121 8.60449C5.20032 8.93705 4.69486 8.97058 4.3623 8.67969C4.03 8.3888 3.99641 7.88424 4.28711 7.55176C4.7138 7.06394 5.2398 6.67285 5.83008 6.40527C6.42023 6.13782 7.06106 5.9994 7.70898 6ZM7.70898 3C8.72797 2.99887 9.73665 3.20444 10.6738 3.60449C11.6114 4.00477 12.4579 4.59197 13.1621 5.3291C13.4672 5.64858 13.4562 6.15478 13.1367 6.45996C12.8172 6.76509 12.311 6.75303 12.0059 6.43359C11.4513 5.85308 10.7843 5.3914 10.0459 5.07617C9.30754 4.76095 8.51279 4.59861 7.70996 4.59961H7.70801C6.90517 4.59861 6.11044 4.76095 5.37207 5.07617C4.6337 5.3914 3.96669 5.85308 3.41211 6.43359C3.10692 6.75302 2.60072 6.7651 2.28125 6.45996C1.9618 6.15479 1.95074 5.64858 2.25586 5.3291C2.96007 4.59197 3.80656 4.00477 4.74414 3.60449C5.68102 3.20457 6.68935 2.999 7.70801 3L7.70898 3.7998V3ZM8.25391 0.0136719C10.9582 0.151339 13.3946 1.308 15.1846 3.10547C15.4963 3.41855 15.4957 3.92555 15.1826 4.2373C14.8695 4.54904 14.3625 4.54745 14.0508 4.23438C12.4293 2.60619 10.1875 1.59961 7.70898 1.59961H7.70801C6.52968 1.59807 5.36259 1.8302 4.27441 2.28223C3.18615 2.73433 2.19764 3.39828 1.36719 4.23438C1.05588 4.54738 0.549697 4.54926 0.236328 4.23828C-0.0771485 3.92692 -0.0789368 3.41992 0.232422 3.10645C1.21181 2.12041 2.37673 1.33788 3.66016 0.804688C4.9433 0.271625 6.31953 -0.00167063 7.70898 0V0.799805L7.70996 0L8.25391 0.0136719Z"
               fill="#222227"
             />
           </svg>
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path
               d="M0.900391 8C1.39727 8.00021 1.7998 8.40346 1.7998 8.90039V10.9004C1.79959 11.3971 1.39714 11.7996 0.900391 11.7998C0.403465 11.7998 0.000210992 11.3973 0 10.9004V8.90039C0 8.40333 0.403334 8 0.900391 8ZM4.2002 5.2998C4.69707 5.30002 5.09961 5.70327 5.09961 6.2002V10.8994C5.09961 11.3963 4.69707 11.7996 4.2002 11.7998C3.70314 11.7998 3.2998 11.3965 3.2998 10.8994V6.2002C3.2998 5.70314 3.70314 5.2998 4.2002 5.2998ZM7.59961 2.7002C8.09655 2.7002 8.49981 3.10271 8.5 3.59961V10.9004C8.49976 11.3972 8.09652 11.7998 7.59961 11.7998C7.10286 11.7996 6.70043 11.3971 6.7002 10.9004V3.59961C6.70038 3.10282 7.10282 2.70038 7.59961 2.7002ZM10.9004 0C11.3973 0.000211056 11.7998 0.403465 11.7998 0.900391V10.9004C11.7996 11.3971 11.3971 11.7996 10.9004 11.7998C10.4035 11.7998 10.0002 11.3973 10 10.9004V0.900391C10 0.403334 10.4033 0 10.9004 0Z"
               fill="#222227"
             />
           </svg>
-          <svg
-            width="17"
-            height="18"
-            viewBox="0 0 17 18"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg width="17" height="18" viewBox="0 0 17 18" fill="none">
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -151,124 +30,149 @@ function AllProducers({ onBack, selectedFilter, onFilterChange }) {
         </div>
       </div>
 
-      {/* Header with Back Button */}
+      {/* Header */}
       <div className="w-full h-[60px] shadow-[0_2px_8px_rgba(69,173,161,0.15)] flex items-center px-4 bg-white flex-shrink-0 z-20">
-        <button
-          onClick={onBack}
-          className="w-[32px] h-[32px] rounded-full bg-gray-50 hover:bg-gray-100 transition flex items-center justify-center mr-3"
-        >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path
-              d="M12.5 15L7.5 10L12.5 5"
-              stroke="#404040"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-        <div>
-          <h1 className="text-[#404040] font-['Outfit'] text-[22px] font-bold">
-            All Producers
-          </h1>
-          <p className="text-gray-400 font-['Outfit'] text-[12px]">
-            {filteredProducers.length} producers nearby
-          </p>
+        <div className="flex items-center gap-2 flex-1">
+          <div className="w-[32px] h-[32px] bg-gradient-to-br from-[#45ADA1] to-[#45ADA1]/70 rounded-lg flex items-center justify-center">
+            <span className="text-white font-['Outfit'] text-[18px] font-bold">
+              C
+            </span>
+          </div>
+          <div>
+            <h1 className="text-[#404040] font-['Outfit'] text-[22px] font-bold">
+              Map View
+            </h1>
+            <p className="text-gray-400 font-['Outfit'] text-[12px]">
+              Nearby producers & farms
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Filter Pills */}
-      <div className="px-4 py-3 bg-white flex-shrink-0">
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-          {["Organic", "Bio", "Sustainable", "Local"].map((filter) => (
-            <button
-              key={filter}
-              onClick={() => handleFilterClick(filter)}
-              className={`px-4 py-2 rounded-full font-['Outfit'] text-[14px] font-medium border whitespace-nowrap transition-all ${
-                selectedFilter === filter
-                  ? "bg-[#45ADA1] text-white border-[#45ADA1]"
-                  : "bg-white text-[#404040] border-[#E8E8E8]"
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
-      </div>
+      {/* Map Content */}
+      <div className="flex-1 relative overflow-hidden bg-gray-100">
+        {/* Map Background - Lisbon */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage:
+              "url('https://www.researchgate.net/publication/381018095/figure/fig1/AS:11431281248522080@1717167581326/Map-view-of-Paris-at-zoom-level-12-with-Google-Maps-style.ppm')",
+            filter: "brightness(0.95)",
+          }}
+        />
 
-      {/* Scrollable Grid Content */}
-      <div className="flex-1 overflow-y-auto px-4 py-4">
-        <div className="grid grid-cols-2 gap-3">
-          {filteredProducers.map((producer) => (
-            <div key={producer.id} className="group cursor-pointer">
-              <div className="w-full rounded-2xl overflow-hidden shadow-md group-hover:shadow-lg group-hover:scale-105 group-hover:ring-2 group-hover:ring-[#45ADA1] transition-all relative">
-                <img
-                  src={producer.image}
-                  alt={producer.name}
-                  className="w-full h-[110px] object-cover"
-                />
-                <div className="w-full bg-white px-3 py-2">
-                  <span className="text-black font-['Outfit'] text-[15px] font-semibold leading-tight block">
-                    {producer.name}
-                  </span>
-                  <div className="flex items-center justify-between mt-1">
-                    <span className="text-gray-500 font-['Outfit'] text-[11px] flex items-center gap-1">
-                      <svg width="8" height="8" viewBox="0 0 10 10" fill="none">
-                        <circle
-                          cx="5"
-                          cy="5"
-                          r="4"
-                          stroke="#45ADA1"
-                          strokeWidth="1"
-                        />
-                      </svg>
-                      {producer.distance}
-                    </span>
-                    {producer.tags && producer.tags.length > 0 && (
-                      <div className="flex gap-1">
-                        {producer.tags.slice(0, 2).map((tag, idx) => (
-                          <span
-                            key={idx}
-                            className="text-[#45ADA1] font-['Outfit'] text-[9px] px-1.5 py-0.5 bg-[#45ADA1]/10 rounded"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
+        {/* Location Markers */}
+        <div className="absolute top-[25%] left-[35%]">
+          <div className="relative animate-bounce">
+            <div className="w-12 h-12 bg-[#45ADA1] rounded-full shadow-xl flex items-center justify-center border-4 border-white">
+              <span className="text-white font-['Outfit'] text-[16px] font-bold">
+                3
+              </span>
             </div>
-          ))}
+            {/* Popup */}
+            <div className="absolute -top-20 left-1/2 -translate-x-1/2 bg-white rounded-xl shadow-2xl p-3 w-32 border-2 border-[#45ADA1]">
+              <p className="text-[#404040] font-['Outfit'] text-[11px] font-semibold">
+                Mirtilos, Uvas
+              </p>
+              <p className="text-gray-400 font-['Outfit'] text-[9px]">
+                0.3 km away
+              </p>
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-[#45ADA1]"></div>
+            </div>
+          </div>
+        </div>
+
+        <div className="absolute top-[45%] left-[55%]">
+          <div className="w-10 h-10 bg-[#45ADA1] rounded-full shadow-xl flex items-center justify-center border-4 border-white cursor-pointer hover:scale-110 transition">
+            <span className="text-white font-['Outfit'] text-[14px] font-bold">
+              2
+            </span>
+          </div>
+        </div>
+
+        <div className="absolute top-[60%] left-[25%]">
+          <div className="w-10 h-10 bg-[#45ADA1] rounded-full shadow-xl flex items-center justify-center border-4 border-white cursor-pointer hover:scale-110 transition">
+            <span className="text-white font-['Outfit'] text-[14px] font-bold">
+              5
+            </span>
+          </div>
+        </div>
+
+        <div className="absolute top-[35%] left-[70%]">
+          <div className="w-8 h-8 bg-[#45ADA1] rounded-full shadow-xl flex items-center justify-center border-3 border-white cursor-pointer hover:scale-110 transition">
+            <span className="text-white font-['Outfit'] text-[12px] font-bold">
+              1
+            </span>
+          </div>
+        </div>
+
+        <div className="absolute top-[55%] left-[45%]">
+          <div className="w-10 h-10 bg-[#45ADA1] rounded-full shadow-xl flex items-center justify-center border-4 border-white cursor-pointer hover:scale-110 transition">
+            <span className="text-white font-['Outfit'] text-[14px] font-bold">
+              4
+            </span>
+          </div>
+        </div>
+
+        {/* Bottom Info Card */}
+        <div className="absolute bottom-4 left-4 right-4 bg-white rounded-2xl shadow-2xl p-4">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 bg-[#45ADA1] rounded-lg flex items-center justify-center">
+              <svg width="20" height="20" viewBox="0 0 31 31" fill="none">
+                <path
+                  d="M10.3333 23.25L1.29163 28.4167V7.75001L10.3333 2.58334M10.3333 23.25L20.6666 28.4167M10.3333 23.25V2.58334M20.6666 28.4167L29.7083 23.25V2.58334L20.6666 7.75001M20.6666 28.4167V7.75001M20.6666 7.75001L10.3333 2.58334"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <h3 className="text-[#404040] font-['Outfit'] text-[16px] font-semibold">
+                15 Locations
+              </h3>
+              <p className="text-gray-400 font-['Outfit'] text-[12px]">
+                Producers & Farms near you
+              </p>
+            </div>
+            <button className="px-4 py-2 bg-[#45ADA1] text-white rounded-full font-['Outfit'] text-[12px] font-medium hover:bg-[#3d9a8f] transition">
+              Filter
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Bottom Navigation */}
       <div className="w-full h-[70px] border-t border-[#E8E8E8] bg-white/95 backdrop-blur-md flex items-center justify-around px-4 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] flex-shrink-0 z-20">
-        <button className="relative flex flex-col items-center gap-1 group">
-          <div className="w-12 h-12 rounded-full bg-[#45ADA1] flex items-center justify-center shadow-lg group-hover:scale-110 transition">
-            <svg width="24" height="24" viewBox="0 0 28 32" fill="none">
+        <button
+          onClick={onBack}
+          className="relative flex flex-col items-center gap-1 group hover:scale-110 transition"
+        >
+          <svg width="24" height="24" viewBox="0 0 28 32" fill="none">
+            <path
+              d="M1 10.7388V30.2388H9.5V25.2388V18.7388H18.5V24.7388V30.2388H27V10.7388L13.5 1.23877L1 10.7388Z"
+              stroke="#8E8E8E"
+              strokeWidth="2"
+            />
+          </svg>
+          <span className="text-[10px] text-gray-400 font-['Outfit']">
+            Home
+          </span>
+        </button>
+
+        <button className="flex flex-col items-center gap-1 group">
+          <div className="w-12 h-12 rounded-full bg-[#45ADA1] flex items-center justify-center shadow-lg">
+            <svg width="28" height="28" viewBox="0 0 31 31" fill="none">
               <path
-                d="M1 10.7388V30.2388H9.5V25.2388V18.7388H18.5V24.7388V30.2388H27V10.7388L13.5 1.23877L1 10.7388Z"
+                d="M10.3333 23.25L1.29163 28.4167V7.75001L10.3333 2.58334M10.3333 23.25L20.6666 28.4167M10.3333 23.25V2.58334M20.6666 28.4167L29.7083 23.25V2.58334L20.6666 7.75001M20.6666 28.4167V7.75001M20.6666 7.75001L10.3333 2.58334"
                 stroke="white"
                 strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </div>
-        </button>
-
-        <button className="flex flex-col items-center gap-1 hover:scale-110 transition">
-          <svg width="28" height="28" viewBox="0 0 31 31" fill="none">
-            <path
-              d="M10.3333 23.25L1.29163 28.4167V7.75001L10.3333 2.58334M10.3333 23.25L20.6666 28.4167M10.3333 23.25V2.58334M20.6666 28.4167L29.7083 23.25V2.58334L20.6666 7.75001M20.6666 28.4167V7.75001M20.6666 7.75001L10.3333 2.58334"
-              stroke="#8E8E8E"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span className="text-[10px] text-gray-400 font-['Outfit']">Map</span>
         </button>
 
         <button className="flex flex-col items-center hover:scale-110 transition">
@@ -308,16 +212,16 @@ function AllProducers({ onBack, selectedFilter, onFilterChange }) {
 
         <button className="flex flex-col items-center gap-1 hover:scale-110 transition">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="9" stroke="#8E8E8E" strokeWidth="2" />
             <path
-              d="M12 7V12L15 15"
+              d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
               stroke="#8E8E8E"
               strokeWidth="2"
               strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
           <span className="text-[10px] text-gray-400 font-['Outfit']">
-            Orders
+            Rewards
           </span>
         </button>
       </div>
@@ -325,4 +229,4 @@ function AllProducers({ onBack, selectedFilter, onFilterChange }) {
   );
 }
 
-export default AllProducers;
+export default MapPage;

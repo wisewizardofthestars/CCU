@@ -177,7 +177,7 @@ function AllFarms({ onBack }) {
           {farms.map((farm) => (
             <div
               key={farm.id}
-              className="group cursor-pointer bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden"
+              className="group cursor-pointer bg-white rounded-2xl shadow-md group-hover:shadow-lg group-hover:scale-105 group-hover:ring-2 group-hover:ring-[#45ADA1] transition-all overflow-hidden"
             >
               <img
                 src={farm.image}

@@ -236,11 +236,11 @@ function AllProducts({ onBack, selectedFilter, onFilterChange }) {
         <div className="grid grid-cols-2 gap-3">
           {filteredProducts.map((product) => (
             <div key={product.id} className="group cursor-pointer">
-              <div className="w-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all relative">
+              <div className="w-full rounded-2xl overflow-hidden shadow-md group-hover:shadow-lg group-hover:scale-105 group-hover:ring-2 group-hover:ring-[#45ADA1] transition-all relative">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-[110px] object-cover group-hover:scale-105 transition-transform"
+                  className="w-full h-[110px] object-cover"
                 />
                 <div className="w-full bg-white px-3 py-2">
                   <span className="text-black font-['Outfit'] text-[15px] font-semibold leading-tight block">

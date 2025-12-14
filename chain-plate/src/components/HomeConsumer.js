@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AllProducts from "./AllProducts";
 import AllProducers from "./AllProducers";
 import AllFarms from "./AllFarms";
+import MapPage from "./MapPage";
 
 const API_URL = "http://localhost:3001";
 
@@ -46,6 +47,13 @@ function HomeConsumer() {
       )
     : products;
 
+  // Filter producers based on selected filter
+  const filteredProducers = selectedFilter
+    ? producers.filter(
+        (producer) => producer.tags && producer.tags.includes(selectedFilter)
+      )
+    : producers;
+
   const handleFilterClick = (filter) => {
     setSelectedFilter(selectedFilter === filter ? null : filter);
   };
@@ -61,10 +69,19 @@ function HomeConsumer() {
     );
   }
   if (detailView === "producers") {
-    return <AllProducers onBack={() => setDetailView(null)} />;
+    return (
+      <AllProducers
+        onBack={() => setDetailView(null)}
+        selectedFilter={selectedFilter}
+        onFilterChange={handleFilterClick}
+      />
+    );
   }
   if (detailView === "farms") {
     return <AllFarms onBack={() => setDetailView(null)} />;
+  }
+  if (detailView === "map") {
+    return <MapPage onBack={() => setDetailView(null)} />;
   }
 
   if (loading) {
@@ -405,7 +422,7 @@ function HomeConsumer() {
             className="flex flex-nowrap gap-3 overflow-x-scroll scrollbar-hide -mx-4 px-4 py-3"
             style={{ WebkitOverflowScrolling: "touch" }}
           >
-            {producers.map((producer) => (
+            {filteredProducers.map((producer) => (
               <div
                 key={producer.id}
                 className="min-w-[160px] flex-shrink-0 group cursor-pointer"
@@ -458,7 +475,7 @@ function HomeConsumer() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute bottom-2 left-2 right-2">
                     <span className="text-white font-['Outfit'] text-[13px] font-medium">
-                      Discover the story
+                      {farm.title}
                     </span>
                   </div>
                 </div>
@@ -482,7 +499,10 @@ function HomeConsumer() {
           </div>
         </button>
 
-        <button className="flex flex-col items-center gap-1 hover:scale-110 transition">
+        <button
+          onClick={() => setDetailView("map")}
+          className="flex flex-col items-center gap-1 hover:scale-110 transition"
+        >
           <svg width="28" height="28" viewBox="0 0 31 31" fill="none">
             <path
               d="M10.3333 23.25L1.29163 28.4167V7.75001L10.3333 2.58334M10.3333 23.25L20.6666 28.4167M10.3333 23.25V2.58334M20.6666 28.4167L29.7083 23.25V2.58334L20.6666 7.75001M20.6666 28.4167V7.75001M20.6666 7.75001L10.3333 2.58334"
@@ -532,16 +552,16 @@ function HomeConsumer() {
 
         <button className="flex flex-col items-center gap-1 hover:scale-110 transition">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="9" stroke="#8E8E8E" strokeWidth="2" />
             <path
-              d="M12 7V12L15 15"
+              d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
               stroke="#8E8E8E"
               strokeWidth="2"
               strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
           <span className="text-[10px] text-gray-400 font-['Outfit']">
-            Orders
+            Rewards
           </span>
         </button>
       </div>
