@@ -6,7 +6,10 @@
       "image": "https://attra.ncat.org/wp-content/uploads/2024/01/blueberry-bush-cropped-1-1030x988.jpg",
       "distance": "1.7 km",
       "price": "1.5€",
-      "tags": ["Organic", "Local"],
+      "tags": [
+        "Organic",
+        "Local"
+      ],
       "producerId": 1
     },
     {
@@ -15,7 +18,10 @@
       "image": "https://www.noursefarms.com/cdn/shop/articles/53582790807_8a555b26c2_o.jpg?v=1741295034",
       "distance": "0.3 km",
       "price": "2.3€",
-      "tags": ["Bio", "Fresh"],
+      "tags": [
+        "Bio",
+        "Fresh"
+      ],
       "producerId": 2
     },
     {
@@ -24,7 +30,10 @@
       "image": "https://www.thespruceeats.com/thmb/ItoIhFNhvSShSPsGlhtWCZHUNyo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Autumn_Royal_grapes-56a5b4875f9b58b7d0de0c32.jpg",
       "distance": "1.2 km",
       "price": "2.3€",
-      "tags": ["Sustainable", "Local"],
+      "tags": [
+        "Sustainable",
+        "Local"
+      ],
       "producerId": 1
     },
     {
@@ -33,7 +42,10 @@
       "image": "https://cdn1.bloomingdesert.com/wp-content/uploads/2016/11/orange-tree-plant-care.jpg",
       "distance": "2.1 km",
       "price": "1.8€",
-      "tags": ["Organic", "Fresh"],
+      "tags": [
+        "Organic",
+        "Fresh"
+      ],
       "producerId": 3
     },
     {
@@ -42,7 +54,9 @@
       "image": "https://www.koppertus.com/content/_processed_/d/6/csm_Apple_12e6b1fddd.jpg",
       "distance": "0.8 km",
       "price": "1.2€",
-      "tags": ["Local"],
+      "tags": [
+        "Local"
+      ],
       "producerId": 2
     },
     {
@@ -51,7 +65,9 @@
       "image": "https://www.koppertus.com/content/_processed_/d/6/csm_Apple_12e6b1fddd.jpg",
       "distance": "3.2 km",
       "price": "2.5€",
-      "tags": ["Bio"],
+      "tags": [
+        "Bio"
+      ],
       "producerId": 3
     },
     {
@@ -60,7 +76,9 @@
       "image": "https://www.allrecipes.com/thmb/epajfpP7nq4u4zM1P9ytFvVVVlo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/ALR-when-are-cherries-in-season-16f3161d401c47c88ebd68930c6444b3.jpg",
       "distance": "1.5 km",
       "price": "3.0€",
-      "tags": ["Organic"],
+      "tags": [
+        "Organic"
+      ],
       "producerId": 1
     },
     {
@@ -69,7 +87,10 @@
       "image": "https://media.post.rvohealth.io/wp-content/uploads/sites/3/2025/01/benefits-watermelon-GettyImages-1331129269-Facebook.jpg",
       "distance": "2.8 km",
       "price": "2.8€",
-      "tags": ["Fresh", "Sustainable"],
+      "tags": [
+        "Fresh",
+        "Sustainable"
+      ],
       "producerId": 2
     },
     {
@@ -78,7 +99,10 @@
       "image": "https://www.agrotec.pt/userfiles/image/dropzone/blogs/20170904235133-kiwi_0015.jpg",
       "distance": "0.9 km",
       "price": "1.9€",
-      "tags": ["Bio", "Local"],
+      "tags": [
+        "Bio",
+        "Local"
+      ],
       "producerId": 1
     },
     {
@@ -87,7 +111,9 @@
       "image": "https://media.self.com/photos/5b43712e4d0c3c282a8878d1/4:3/w_2560%2Cc_limit/avocado.jpg",
       "distance": "1.3 km",
       "price": "2.1€",
-      "tags": ["Sustainable"],
+      "tags": [
+        "Sustainable"
+      ],
       "producerId": 3
     }
   ],
@@ -98,7 +124,10 @@
       "image": "https://img.freepik.com/premium-photo/happy-asian-farmer-holding-fresh-rambutan-rambutan-garden-organic-fruit-agriculture-concept_61243-1574.jpg",
       "distance": "0.3 km",
       "farmId": 1,
-      "tags": ["Organic", "Local"]
+      "tags": [
+        "Organic",
+        "Local"
+      ]
     },
     {
       "id": 2,
@@ -106,7 +135,10 @@
       "image": "https://cax-wp-farmers-prod-uploads.s3.amazonaws.com/app/uploads/2016/05/Proactive-fruit-farming-techniques.jpg",
       "distance": "1.2 km",
       "farmId": 2,
-      "tags": ["Bio", "Sustainable"]
+      "tags": [
+        "Bio",
+        "Sustainable"
+      ]
     },
     {
       "id": 3,
@@ -114,23 +146,31 @@
       "image": "https://www.portugalfarmexperience.com/wp-content/uploads/sites/2986/2025/01/porto-fruit-farm-tour_4.jpg?resize=360%2C240&zoom=2",
       "distance": "2.1 km",
       "farmId": 3,
-      "tags": ["Organic", "Fresh"]
+      "tags": [
+        "Organic",
+        "Fresh"
+      ]
     },
     {
       "id": 4,
       "name": "Ana Santos",
-      "image": "https://api.builder.io/api/v1/image/assets/TEMP/1aaf313f9e80bb6a0b43eeee76b2823d85d60e90?width=100",
+      "image": "https://www.visitnsw.com/sites/visitnsw/files/styles/article_mobile_x2/public/2023-02/184843_Hillside_Harvest.jpg?h=f0fb51a5&itok=x5GhCNbf",
       "distance": "3.5 km",
       "farmId": 1,
-      "tags": ["Local"]
+      "tags": [
+        "Local"
+      ]
     },
     {
       "id": 5,
       "name": "Pedro Alves",
-      "image": "https://api.builder.io/api/v1/image/assets/TEMP/b7c76baa0e5be8c5f29889f8b75d82ab903638f8?width=100",
+      "image": "https://c.files.bbci.co.uk/d43d/live/0eab06c0-3648-11f0-8185-6772e52c97ad.jpg",
       "distance": "0.8 km",
       "farmId": 2,
-      "tags": ["Bio", "Local"]
+      "tags": [
+        "Bio",
+        "Local"
+      ]
     },
     {
       "id": 6,
@@ -138,7 +178,10 @@
       "image": "https://api.builder.io/api/v1/image/assets/TEMP/76bef47eb5c82b8c4e6dde27d1b2f2edf3a54e1b?width=100",
       "distance": "1.9 km",
       "farmId": 3,
-      "tags": ["Sustainable", "Fresh"]
+      "tags": [
+        "Sustainable",
+        "Fresh"
+      ]
     },
     {
       "id": 7,
@@ -146,7 +189,9 @@
       "image": "https://api.builder.io/api/v1/image/assets/TEMP/1aaf313f9e80bb6a0b43eeee76b2823d85d60e90?width=100",
       "distance": "2.7 km",
       "farmId": 1,
-      "tags": ["Organic"]
+      "tags": [
+        "Organic"
+      ]
     },
     {
       "id": 8,
@@ -154,7 +199,10 @@
       "image": "https://api.builder.io/api/v1/image/assets/TEMP/b7c76baa0e5be8c5f29889f8b75d82ab903638f8?width=100",
       "distance": "3.2 km",
       "farmId": 2,
-      "tags": ["Bio", "Sustainable"]
+      "tags": [
+        "Bio",
+        "Sustainable"
+      ]
     }
   ],
   "farms": [
@@ -164,7 +212,10 @@
       "image": "https://www.liveabout.com/thmb/ptbMMhEEAzP6R9xjEhOWctxcBpE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-688025709-fcd7aaeb1e444b2893302c9fb89b583d.jpg",
       "description": "Experience a peaceful day at our organic farm...",
       "distance": "0.3 km",
-      "tags": ["Organic", "Family-Friendly"]
+      "tags": [
+        "Organic",
+        "Family-Friendly"
+      ]
     },
     {
       "id": 2,
@@ -172,7 +223,10 @@
       "image": "https://www.timeforkids.com/wp-content/uploads/2019/08/pump-final.jpg?w=1024",
       "description": "Join us during the exciting harvest season...",
       "distance": "1.2 km",
-      "tags": ["Seasonal", "Educational"]
+      "tags": [
+        "Seasonal",
+        "Educational"
+      ]
     },
     {
       "id": 3,
@@ -180,7 +234,10 @@
       "image": "https://images.squarespace-cdn.com/content/v1/5d96d524052c897425394aaf/7f17f583-0ec1-40a5-9ebf-2bb221ae5e1c/what-does-farm-to-table-mean.jpg",
       "description": "Discover how fresh produce goes from farm to table...",
       "distance": "2.1 km",
-      "tags": ["Sustainable", "Local"]
+      "tags": [
+        "Sustainable",
+        "Local"
+      ]
     },
     {
       "id": 4,
@@ -188,7 +245,10 @@
       "image": "https://theyoungerwine.com/wp-content/uploads/2022/04/img_4920.jpg?w=1568",
       "description": "Wake up early and harvest with us at sunrise...",
       "distance": "3.5 km",
-      "tags": ["Early Bird", "Organic"]
+      "tags": [
+        "Early Bird",
+        "Organic"
+      ]
     },
     {
       "id": 5,
@@ -196,7 +256,10 @@
       "image": "https://api.builder.io/api/v1/image/assets/TEMP/9c8e5e1fd96c1a8a4b79c8d73da5f2e8ab903638?width=302",
       "description": "Educational experience for children and families...",
       "distance": "0.8 km",
-      "tags": ["Kids", "Educational"]
+      "tags": [
+        "Kids",
+        "Educational"
+      ]
     },
     {
       "id": 6,
@@ -204,7 +267,10 @@
       "image": "https://api.builder.io/api/v1/image/assets/TEMP/a1b2c3d4e5f67890abc123def456789012345678?width=302",
       "description": "Tour our beautiful organic gardens...",
       "distance": "1.9 km",
-      "tags": ["Organic", "Tour"]
+      "tags": [
+        "Organic",
+        "Tour"
+      ]
     },
     {
       "id": 7,
@@ -212,7 +278,148 @@
       "image": "https://api.builder.io/api/v1/image/assets/TEMP/f79b7a59774a20f01b2a8ee47ab68ef94b3d5e5c?width=302",
       "description": "Learn sustainable farming techniques...",
       "distance": "2.7 km",
-      "tags": ["Workshop", "Sustainable"]
+      "tags": [
+        "Workshop",
+        "Sustainable"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Maria Silva",
+      "email": "maria.silva@email.com",
+      "joined": "December 2024",
+      "totalPurchases": 24,
+      "savedItems": 8,
+      "rewards": 156,
+      "pastPurchases": [
+        {
+          "id": 1,
+          "name": "Organic Tomatoes",
+          "producer": "Maria Silva",
+          "date": "Dec 10, 2024",
+          "price": "€3.50",
+          "image": "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=200",
+          "status": "Delivered"
+        },
+        {
+          "id": 2,
+          "name": "Fresh Milk",
+          "producer": "João Costa",
+          "date": "Dec 8, 2024",
+          "price": "€2.20",
+          "image": "https://images.unsplash.com/photo-1563636619-e9143da7973b?w=200",
+          "status": "Delivered"
+        },
+        {
+          "id": 3,
+          "name": "Honey Jar",
+          "producer": "Quinta da Serra",
+          "date": "Dec 5, 2024",
+          "price": "€8.50",
+          "image": "https://images.unsplash.com/photo-1587049352846-4a222e784acc?w=200",
+          "status": "Delivered"
+        },
+        {
+          "id": 4,
+          "name": "Olive Oil",
+          "producer": "Ana Santos",
+          "date": "Dec 2, 2024",
+          "price": "€12.00",
+          "image": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=200",
+          "status": "Delivered"
+        },
+        {
+          "id": 5,
+          "name": "Fresh Eggs",
+          "producer": "Pedro Alves",
+          "date": "Nov 28, 2024",
+          "price": "€4.50",
+          "image": "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=200",
+          "status": "Delivered"
+        }
+      ],
+      "likedProducts": [
+        {
+          "id": 4,
+          "name": "Olive Oil",
+          "producer": "Ana Santos",
+          "price": "€12.00",
+          "tags": [
+            "Organic",
+            "Local"
+          ],
+          "image": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=200"
+        },
+        {
+          "id": 5,
+          "name": "Fresh Bread",
+          "producer": "Pedro Alves",
+          "price": "€2.50",
+          "tags": [
+            "Fresh",
+            "Bio"
+          ],
+          "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=200"
+        },
+        {
+          "id": 6,
+          "name": "Cherry Tomatoes",
+          "producer": "Maria Silva",
+          "price": "€3.80",
+          "tags": [
+            "Organic",
+            "Fresh"
+          ],
+          "image": "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=200"
+        },
+        {
+          "id": 7,
+          "name": "Farm Eggs",
+          "producer": "Quinta do Vale",
+          "price": "€4.50",
+          "tags": [
+            "Bio",
+            "Local"
+          ],
+          "image": "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=200"
+        },
+        {
+          "id": 8,
+          "name": "Fresh Cheese",
+          "producer": "Sofia Rocha",
+          "price": "€5.20",
+          "tags": [
+            "Organic",
+            "Local"
+          ],
+          "image": "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=200"
+        }
+      ]
+    },
+    {
+      "id": "e39c",
+      "name": "Tomas",
+      "email": "a@a",
+      "joined": "December 2025",
+      "totalPurchases": 0,
+      "savedItems": 1,
+      "rewards": 0,
+      "pastPurchases": [],
+      "likedProducts": [
+        {
+          "id": 2,
+          "name": "Morangos",
+          "producer": "Local Producer",
+          "price": "2.3€",
+          "tags": [
+            "Bio",
+            "Fresh"
+          ],
+          "image": "https://www.noursefarms.com/cdn/shop/articles/53582790807_8a555b26c2_o.jpg?v=1741295034"
+        }
+      ]
     }
   ]
 }

@@ -3,6 +3,9 @@ import AllProducts from "./AllProducts";
 import AllProducers from "./AllProducers";
 import AllFarms from "./AllFarms";
 import MapPage from "./MapPage";
+import UserProfile from "./UserProfile";
+import SavedPage from "./SavedPage";
+import PurchasesPage from "./PurchasesPage";
 
 const API_URL = "http://localhost:3001";
 
@@ -13,6 +16,10 @@ function HomeConsumer() {
   const [farms, setFarms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedFilter, setSelectedFilter] = useState(null);
+  const [savedProductsData, setSavedProductsData] = useState([]);
+  const [purchasesData, setPurchasesData] = useState([]);
+  const [likedProductIds, setLikedProductIds] = useState([]);
+  const [likedProducerIds, setLikedProducerIds] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,6 +37,21 @@ function HomeConsumer() {
         setProducts(productsData);
         setProducers(producersData);
         setFarms(farmsData);
+
+        // Fetch user's liked items
+        const userId = localStorage.getItem("currentUserId");
+        if (userId) {
+          const userRes = await fetch(`${API_URL}/users/${userId}`);
+          const userData = await userRes.json();
+          const likedProdIds = userData.likedProducts?.map((p) => p.id) || [];
+          const likedProdcerIds =
+            userData.likedProducts
+              ?.filter((p) => p.producerId)
+              .map((p) => p.producerId) || [];
+          setLikedProductIds(likedProdIds);
+          setLikedProducerIds(likedProdcerIds);
+        }
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -39,6 +61,108 @@ function HomeConsumer() {
 
     fetchData();
   }, []);
+
+  // Handle liking/unliking products
+  const handleLikeProduct = async (product) => {
+    const userId = localStorage.getItem("currentUserId");
+    if (!userId) {
+      alert("Please log in to save products");
+      return;
+    }
+
+    try {
+      const userRes = await fetch(`${API_URL}/users/${userId}`);
+      const userData = await userRes.json();
+
+      const isLiked = likedProductIds.includes(product.id);
+      let updatedLikedProducts;
+
+      if (isLiked) {
+        // Remove from liked products
+        updatedLikedProducts = userData.likedProducts.filter(
+          (p) => p.id !== product.id
+        );
+        setLikedProductIds(likedProductIds.filter((id) => id !== product.id));
+      } else {
+        // Add to liked products
+        const likedProduct = {
+          id: product.id,
+          name: product.name,
+          producer:
+            products.find((p) => p.producerId)?.producer || "Local Producer",
+          price: product.price,
+          tags: product.tags || [],
+          image: product.image,
+        };
+        updatedLikedProducts = [...userData.likedProducts, likedProduct];
+        setLikedProductIds([...likedProductIds, product.id]);
+      }
+
+      // Update user in database
+      await fetch(`${API_URL}/users/${userId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          likedProducts: updatedLikedProducts,
+          savedItems: updatedLikedProducts.length,
+        }),
+      });
+    } catch (error) {
+      console.error("Error liking product:", error);
+    }
+  };
+
+  // Handle liking/unliking producers
+  const handleLikeProducer = async (producer) => {
+    const userId = localStorage.getItem("currentUserId");
+    if (!userId) {
+      alert("Please log in to save producers");
+      return;
+    }
+
+    try {
+      const userRes = await fetch(`${API_URL}/users/${userId}`);
+      const userData = await userRes.json();
+
+      const isLiked = likedProducerIds.includes(producer.id);
+      let updatedLikedProducts;
+
+      if (isLiked) {
+        // Remove producer from liked products
+        updatedLikedProducts = userData.likedProducts.filter(
+          (p) => p.producerId !== producer.id
+        );
+        setLikedProducerIds(
+          likedProducerIds.filter((id) => id !== producer.id)
+        );
+      } else {
+        // Add producer to liked products as a special entry
+        const likedProducer = {
+          id: `producer_${producer.id}`,
+          producerId: producer.id,
+          name: `Products by ${producer.name}`,
+          producer: producer.name,
+          price: "Various",
+          tags: producer.tags || [],
+          image: producer.image,
+        };
+        updatedLikedProducts = [...userData.likedProducts, likedProducer];
+        setLikedProducerIds([...likedProducerIds, producer.id]);
+      }
+
+      // Update user in database
+      await fetch(`${API_URL}/users/${userId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          likedProducts: updatedLikedProducts,
+          savedItems: updatedLikedProducts.length,
+        }),
+      });
+    } catch (error) {
+      console.error("Error liking producer:", error);
+    }
+  };
 
   // Filter products based on selected filter
   const filteredProducts = selectedFilter
@@ -82,6 +206,41 @@ function HomeConsumer() {
   }
   if (detailView === "map") {
     return <MapPage onBack={() => setDetailView(null)} />;
+  }
+  if (detailView === "profile") {
+    return (
+      <UserProfile
+        onBack={() => setDetailView(null)}
+        onLogout={() => {
+          localStorage.removeItem("currentUserId");
+          window.location.reload();
+        }}
+        onNavigateToSaved={(data) => {
+          setSavedProductsData(data);
+          setDetailView("saved");
+        }}
+        onNavigateToPurchases={(data) => {
+          setPurchasesData(data);
+          setDetailView("purchases");
+        }}
+      />
+    );
+  }
+  if (detailView === "saved") {
+    return (
+      <SavedPage
+        onBack={() => setDetailView("profile")}
+        savedProducts={savedProductsData}
+      />
+    );
+  }
+  if (detailView === "purchases") {
+    return (
+      <PurchasesPage
+        onBack={() => setDetailView("profile")}
+        pastPurchases={purchasesData}
+      />
+    );
   }
 
   if (loading) {
@@ -290,7 +449,10 @@ function HomeConsumer() {
             </svg>
             <div className="absolute top-0 right-0 w-2 h-2 bg-[#45ADA1] rounded-full"></div>
           </button>
-          <button className="w-[32px] h-[32px] rounded-full bg-gradient-to-br from-[#45ADA1] to-[#45ADA1]/70 flex items-center justify-center hover:scale-105 transition">
+          <button
+            onClick={() => setDetailView("profile")}
+            className="w-[32px] h-[32px] rounded-full bg-gradient-to-br from-[#45ADA1] to-[#45ADA1]/70 flex items-center justify-center hover:scale-105 transition"
+          >
             <svg
               width="18"
               height="18"
@@ -388,11 +550,30 @@ function HomeConsumer() {
                       </span>
                     </div>
                   </div>
-                  <button className="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition shadow-sm">
-                    <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLikeProduct(product);
+                    }}
+                    className="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition shadow-sm"
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 20 20"
+                      fill={
+                        likedProductIds.includes(product.id)
+                          ? "#ef4444"
+                          : "none"
+                      }
+                    >
                       <path
                         d="M17.3667 3.84166C16.9411 3.41583 16.4357 3.07803 15.8795 2.84757C15.3233 2.6171 14.7271 2.49847 14.1251 2.49847C13.523 2.49847 12.9268 2.6171 12.3706 2.84757C11.8144 3.07803 11.309 3.41583 10.8834 3.84166L10.0001 4.725L9.11673 3.84166C8.25698 2.98192 7.09092 2.49892 5.87506 2.49892C4.6592 2.49892 3.49314 2.98192 2.63339 3.84166C1.77365 4.70141 1.29065 5.86747 1.29065 7.08333C1.29065 8.29919 1.77365 9.46525 2.63339 10.325L10.0001 17.6917L17.3667 10.325C17.7926 9.89937 18.1304 9.39401 18.3608 8.83779C18.5913 8.28158 18.7099 7.6854 18.7099 7.08333C18.7099 6.48126 18.5913 5.88508 18.3608 5.32887C18.1304 4.77265 17.7926 4.26729 17.3667 3.84166Z"
-                        stroke="#1E1E1E"
+                        stroke={
+                          likedProductIds.includes(product.id)
+                            ? "#ef4444"
+                            : "#1E1E1E"
+                        }
                         strokeWidth="1.5"
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -427,7 +608,7 @@ function HomeConsumer() {
                 key={producer.id}
                 className="min-w-[160px] flex-shrink-0 group cursor-pointer"
               >
-                <div className="w-[160px] h-[130px] rounded-2xl overflow-hidden shadow-md group-hover:shadow-lg group-hover:scale-105 group-hover:ring-2 group-hover:ring-[#45ADA1] transition-all">
+                <div className="w-[160px] h-[130px] rounded-2xl overflow-hidden shadow-md group-hover:shadow-lg group-hover:scale-105 group-hover:ring-2 group-hover:ring-[#45ADA1] transition-all relative">
                   <img
                     src={producer.image}
                     alt={producer.name}
@@ -438,6 +619,36 @@ function HomeConsumer() {
                       {producer.name}
                     </span>
                   </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLikeProducer(producer);
+                    }}
+                    className="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition shadow-sm"
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 20 20"
+                      fill={
+                        likedProducerIds.includes(producer.id)
+                          ? "#ef4444"
+                          : "none"
+                      }
+                    >
+                      <path
+                        d="M17.3667 3.84166C16.9411 3.41583 16.4357 3.07803 15.8795 2.84757C15.3233 2.6171 14.7271 2.49847 14.1251 2.49847C13.523 2.49847 12.9268 2.6171 12.3706 2.84757C11.8144 3.07803 11.309 3.41583 10.8834 3.84166L10.0001 4.725L9.11673 3.84166C8.25698 2.98192 7.09092 2.49892 5.87506 2.49892C4.6592 2.49892 3.49314 2.98192 2.63339 3.84166C1.77365 4.70141 1.29065 5.86747 1.29065 7.08333C1.29065 8.29919 1.77365 9.46525 2.63339 10.325L10.0001 17.6917L17.3667 10.325C17.7926 9.89937 18.1304 9.39401 18.3608 8.83779C18.5913 8.28158 18.7099 7.6854 18.7099 7.08333C18.7099 6.48126 18.5913 5.88508 18.3608 5.32887C18.1304 4.77265 17.7926 4.26729 17.3667 3.84166Z"
+                        stroke={
+                          likedProducerIds.includes(producer.id)
+                            ? "#ef4444"
+                            : "#1E1E1E"
+                        }
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
                 </div>
               </div>
             ))}

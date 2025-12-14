@@ -14,10 +14,24 @@ const LoginForm = ({ onBack, onLoginSuccess, onRegisterClick }) => {
     }));
   };
 
-  const handleLogin = () => {
-    console.log("Login:", formData);
-    // Add your login logic here
-    onLoginSuccess();
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/users");
+      const users = await response.json();
+
+      const user = users.find((u) => u.email === formData.email);
+
+      if (user) {
+        // Store user ID in localStorage
+        localStorage.setItem("currentUserId", user.id);
+        onLoginSuccess();
+      } else {
+        alert("No account found with this email. Please register first.");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Login failed. Please try again.");
+    }
   };
 
   return (

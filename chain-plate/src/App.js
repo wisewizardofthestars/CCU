@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProductScanner from "./components/ProductScanner";
 import ProductPage from "./components/ProductPage";
 import ProducerDashboard from "./components/ProducerDashboard";
@@ -13,6 +13,14 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [view, setView] = useState("consumer"); // 'consumer' or 'producer'
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Check for existing login on mount
+  useEffect(() => {
+    const userId = localStorage.getItem("currentUserId");
+    if (userId) {
+      setIsLoggedIn(true);
+    }
+  }, []);
   const [consumerView, setConsumerView] = useState("home"); // 'home' or 'scanner'
   const [isLoading, setIsLoading] = useState(true);
   const [authView, setAuthView] = useState("landing"); // 'landing' | 'login' | 'register'
@@ -58,6 +66,10 @@ function App() {
         <RegisterConsumer
           onBack={() => setAuthView("landing")}
           onLoginClick={() => setAuthView("login")}
+          onRegisterSuccess={() => {
+            setIsLoggedIn(true);
+            setView("consumer");
+          }}
         />
       );
     }

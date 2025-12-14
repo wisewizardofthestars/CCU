@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const RegisterConsumer = ({ onBack, onLoginClick }) => {
+const RegisterConsumer = ({ onBack, onLoginClick, onRegisterSuccess }) => {
   const [isConsumer, setIsConsumer] = useState(true);
   const [formData, setFormData] = useState({
     username: "",
@@ -17,8 +17,51 @@ const RegisterConsumer = ({ onBack, onLoginClick }) => {
     }));
   };
 
-  const handleRegister = () => {
-    console.log("Register:", formData);
+  const handleRegister = async () => {
+    // Basic validation
+    if (!formData.username || !formData.email || !formData.password) {
+      alert("Please fill in all fields");
+      return;
+    }
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      // Create new user in database
+      const newUser = {
+        name: formData.username,
+        email: formData.email,
+        joined: new Date().toLocaleDateString("en-US", {
+          month: "long",
+          year: "numeric",
+        }),
+        totalPurchases: 0,
+        savedItems: 0,
+        rewards: 0,
+        pastPurchases: [],
+        likedProducts: [],
+      };
+
+      const response = await fetch("http://localhost:3001/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      });
+
+      const createdUser = await response.json();
+      localStorage.setItem("currentUserId", createdUser.id);
+
+      if (onRegisterSuccess) {
+        onRegisterSuccess();
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      alert("Registration failed. Please try again.");
+    }
   };
 
   return (
@@ -29,7 +72,10 @@ const RegisterConsumer = ({ onBack, onLoginClick }) => {
         <div className="flex items-center justify-center w-[58px] h-[15px] ml-[6px] mt-[8px]">
           <span
             className="text-black text-center text-[16px] font-normal tracking-[-0.24px]"
-            style={{ fontFamily: "Roboto, -apple-system, Roboto, Helvetica, sans-serif" }}
+            style={{
+              fontFamily:
+                "Roboto, -apple-system, Roboto, Helvetica, sans-serif",
+            }}
           >
             16:20
           </span>
@@ -134,7 +180,8 @@ const RegisterConsumer = ({ onBack, onLoginClick }) => {
               isConsumer ? "text-white" : "text-black"
             }`}
             style={{
-              fontFamily: "Roboto, -apple-system, Roboto, Helvetica, sans-serif",
+              fontFamily:
+                "Roboto, -apple-system, Roboto, Helvetica, sans-serif",
             }}
           >
             Consumer
@@ -153,7 +200,8 @@ const RegisterConsumer = ({ onBack, onLoginClick }) => {
               !isConsumer ? "text-white" : "text-black"
             }`}
             style={{
-              fontFamily: "Roboto, -apple-system, Roboto, Helvetica, sans-serif",
+              fontFamily:
+                "Roboto, -apple-system, Roboto, Helvetica, sans-serif",
             }}
           >
             Producer
