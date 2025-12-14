@@ -1,0 +1,218 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Mirtilos",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/b86f00b0413577b512dceeb1461ecf08f8d9af85?width=302",
+      "distance": "1.7 km",
+      "price": "1.5€",
+      "tags": ["Organic", "Local"],
+      "producerId": 1
+    },
+    {
+      "id": 2,
+      "name": "Morangos",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/b9ca48a07174a47e4b539b4e206f1552ab403fb6?width=302",
+      "distance": "0.3 km",
+      "price": "2.3€",
+      "tags": ["Bio", "Fresh"],
+      "producerId": 2
+    },
+    {
+      "id": 3,
+      "name": "Uvas",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/39e32d41c02e04f07926a10085ff47a225d515f7?width=302",
+      "distance": "1.2 km",
+      "price": "2.3€",
+      "tags": ["Sustainable", "Local"],
+      "producerId": 1
+    },
+    {
+      "id": 4,
+      "name": "Laranjas",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/b86f00b0413577b512dceeb1461ecf08f8d9af85?width=302",
+      "distance": "2.1 km",
+      "price": "1.8€",
+      "tags": ["Organic", "Fresh"],
+      "producerId": 3
+    },
+    {
+      "id": 5,
+      "name": "Maçãs",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/b9ca48a07174a47e4b539b4e206f1552ab403fb6?width=302",
+      "distance": "0.8 km",
+      "price": "1.2€",
+      "tags": ["Local"],
+      "producerId": 2
+    },
+    {
+      "id": 6,
+      "name": "Peras",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/39e32d41c02e04f07926a10085ff47a225d515f7?width=302",
+      "distance": "3.2 km",
+      "price": "2.5€",
+      "tags": ["Bio"],
+      "producerId": 3
+    },
+    {
+      "id": 7,
+      "name": "Cerejas",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/b86f00b0413577b512dceeb1461ecf08f8d9af85?width=302",
+      "distance": "1.5 km",
+      "price": "3.0€",
+      "tags": ["Organic"],
+      "producerId": 1
+    },
+    {
+      "id": 8,
+      "name": "Melancia",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/b9ca48a07174a47e4b539b4e206f1552ab403fb6?width=302",
+      "distance": "2.8 km",
+      "price": "2.8€",
+      "tags": ["Fresh", "Sustainable"],
+      "producerId": 2
+    },
+    {
+      "id": 9,
+      "name": "Kiwis",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/39e32d41c02e04f07926a10085ff47a225d515f7?width=302",
+      "distance": "0.9 km",
+      "price": "1.9€",
+      "tags": ["Bio", "Local"],
+      "producerId": 1
+    },
+    {
+      "id": 10,
+      "name": "Abacate",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/b86f00b0413577b512dceeb1461ecf08f8d9af85?width=302",
+      "distance": "1.3 km",
+      "price": "2.1€",
+      "tags": ["Sustainable"],
+      "producerId": 3
+    }
+  ],
+  "producers": [
+    {
+      "id": 1,
+      "name": "Quinta",
+      "subtitle": "do Monte",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/1aaf313f9e80bb6a0b43eeee76b2823d85d60e90?width=100",
+      "distance": "0.3 km",
+      "farmId": 1
+    },
+    {
+      "id": 2,
+      "name": "Quinta",
+      "subtitle": "da Praia",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/b7c76baa0e5be8c5f29889f8b75d82ab903638f8?width=100",
+      "distance": "1.2 km",
+      "farmId": 2
+    },
+    {
+      "id": 3,
+      "name": "Quinta",
+      "subtitle": "da Serra",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/76bef47eb5c82b8c4e6dde27d1b2f2edf3a54e1b?width=100",
+      "distance": "2.1 km",
+      "farmId": 3
+    },
+    {
+      "id": 4,
+      "name": "Quinta",
+      "subtitle": "do Vale",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/1aaf313f9e80bb6a0b43eeee76b2823d85d60e90?width=100",
+      "distance": "3.5 km",
+      "farmId": 1
+    },
+    {
+      "id": 5,
+      "name": "Quinta",
+      "subtitle": "do Sol",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/b7c76baa0e5be8c5f29889f8b75d82ab903638f8?width=100",
+      "distance": "0.8 km",
+      "farmId": 2
+    },
+    {
+      "id": 6,
+      "name": "Quinta",
+      "subtitle": "da Lua",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/76bef47eb5c82b8c4e6dde27d1b2f2edf3a54e1b?width=100",
+      "distance": "1.9 km",
+      "farmId": 3
+    },
+    {
+      "id": 7,
+      "name": "Quinta",
+      "subtitle": "do Rio",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/1aaf313f9e80bb6a0b43eeee76b2823d85d60e90?width=100",
+      "distance": "2.7 km",
+      "farmId": 1
+    },
+    {
+      "id": 8,
+      "name": "Quinta",
+      "subtitle": "da Estrela",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/b7c76baa0e5be8c5f29889f8b75d82ab903638f8?width=100",
+      "distance": "3.2 km",
+      "farmId": 2
+    }
+  ],
+  "farms": [
+    {
+      "id": 1,
+      "title": "Day at the farm",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/f79b7a59774a20f01b2a8ee47ab68ef94b3d5e5c?width=302",
+      "description": "Experience a peaceful day at our organic farm...",
+      "distance": "0.3 km",
+      "tags": ["Organic", "Family-Friendly"]
+    },
+    {
+      "id": 2,
+      "title": "Harvest season",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/9c8e5e1fd96c1a8a4b79c8d73da5f2e8ab903638?width=302",
+      "description": "Join us during the exciting harvest season...",
+      "distance": "1.2 km",
+      "tags": ["Seasonal", "Educational"]
+    },
+    {
+      "id": 3,
+      "title": "Farm to table",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/a1b2c3d4e5f67890abc123def456789012345678?width=302",
+      "description": "Discover how fresh produce goes from farm to table...",
+      "distance": "2.1 km",
+      "tags": ["Sustainable", "Local"]
+    },
+    {
+      "id": 4,
+      "title": "Sunrise harvest",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/f79b7a59774a20f01b2a8ee47ab68ef94b3d5e5c?width=302",
+      "description": "Wake up early and harvest with us at sunrise...",
+      "distance": "3.5 km",
+      "tags": ["Early Bird", "Organic"]
+    },
+    {
+      "id": 5,
+      "title": "Kids at the farm",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/9c8e5e1fd96c1a8a4b79c8d73da5f2e8ab903638?width=302",
+      "description": "Educational experience for children and families...",
+      "distance": "0.8 km",
+      "tags": ["Kids", "Educational"]
+    },
+    {
+      "id": 6,
+      "title": "Organic gardens",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/a1b2c3d4e5f67890abc123def456789012345678?width=302",
+      "description": "Tour our beautiful organic gardens...",
+      "distance": "1.9 km",
+      "tags": ["Organic", "Tour"]
+    },
+    {
+      "id": 7,
+      "title": "Weekend workshop",
+      "image": "https://api.builder.io/api/v1/image/assets/TEMP/f79b7a59774a20f01b2a8ee47ab68ef94b3d5e5c?width=302",
+      "description": "Learn sustainable farming techniques...",
+      "distance": "2.7 km",
+      "tags": ["Workshop", "Sustainable"]
+    }
+  ]
+}

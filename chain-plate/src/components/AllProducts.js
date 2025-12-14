@@ -1,71 +1,34 @@
 import React, { useState, useEffect } from "react";
-import AllProducts from "./AllProducts";
-import AllProducers from "./AllProducers";
-import AllFarms from "./AllFarms";
 
 const API_URL = "http://localhost:3001";
 
-function HomeConsumer() {
-  const [detailView, setDetailView] = useState(null);
+function AllProducts({ onBack, selectedFilter, onFilterChange }) {
   const [products, setProducts] = useState([]);
-  const [producers, setProducers] = useState([]);
-  const [farms, setFarms] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedFilter, setSelectedFilter] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProducts = async () => {
       try {
-        const [productsRes, producersRes, farmsRes] = await Promise.all([
-          fetch(`${API_URL}/products`),
-          fetch(`${API_URL}/producers`),
-          fetch(`${API_URL}/farms`),
-        ]);
-
-        const productsData = await productsRes.json();
-        const producersData = await producersRes.json();
-        const farmsData = await farmsRes.json();
-
-        setProducts(productsData);
-        setProducers(producersData);
-        setFarms(farmsData);
+        const response = await fetch(`${API_URL}/products`);
+        const data = await response.json();
+        setProducts(data);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching products:", error);
         setLoading(false);
       }
     };
 
-    fetchData();
+    fetchProducts();
   }, []);
 
-  // Filter products based on selected filter
   const filteredProducts = selectedFilter
-    ? products.filter(
-        (product) => product.tags && product.tags.includes(selectedFilter)
-      )
+    ? products.filter((p) => p.tags && p.tags.includes(selectedFilter))
     : products;
 
   const handleFilterClick = (filter) => {
-    setSelectedFilter(selectedFilter === filter ? null : filter);
+    onFilterChange(selectedFilter === filter ? null : filter);
   };
-
-  // If in detail view, show the appropriate component
-  if (detailView === "products") {
-    return (
-      <AllProducts
-        onBack={() => setDetailView(null)}
-        selectedFilter={selectedFilter}
-        onFilterChange={handleFilterClick}
-      />
-    );
-  }
-  if (detailView === "producers") {
-    return <AllProducers onBack={() => setDetailView(null)} />;
-  }
-  if (detailView === "farms") {
-    return <AllFarms onBack={() => setDetailView(null)} />;
-  }
 
   if (loading) {
     return (
@@ -158,6 +121,22 @@ function HomeConsumer() {
       distance: "1.3 km",
       price: "2.1€",
     },
+    {
+      id: 11,
+      name: "Framboesas",
+      image:
+        "https://api.builder.io/api/v1/image/assets/TEMP/b9ca48a07174a47e4b539b4e206f1552ab403fb6?width=302",
+      distance: "2.0 km",
+      price: "2.9€",
+    },
+    {
+      id: 12,
+      name: "Amêndoas",
+      image:
+        "https://api.builder.io/api/v1/image/assets/TEMP/39e32d41c02e04f07926a10085ff47a225d515f7?width=302",
+      distance: "3.5 km",
+      price: "4.5€",
+    },
   ];
 
   return (
@@ -207,264 +186,98 @@ function HomeConsumer() {
         </div>
       </div>
 
-      {/* Top Header Bar */}
-      <div className="w-full h-[50px] shadow-[0_2px_8px_rgba(69,173,161,0.15)] flex items-center justify-between px-4 bg-white flex-shrink-0 z-20">
-        <div className="flex items-center gap-2">
-          <div className="w-[32px] h-[32px] bg-gradient-to-br from-[#45ADA1] to-[#45ADA1]/70 rounded-lg flex items-center justify-center">
-            <span className="text-white font-['Outfit'] text-[18px] font-bold">
-              C
-            </span>
-          </div>
-          <div>
-            <h3 className="text-[#45ADA1] font-['Outfit'] text-[16px] font-semibold leading-tight">
-              ChainPlate
-            </h3>
-            <p className="text-gray-400 font-['Roboto'] text-[10px] leading-tight">
-              Farm to Table
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <button className="w-[32px] h-[32px] rounded-full bg-gray-50 hover:bg-gray-100 transition flex items-center justify-center">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="8.5"
-                cy="8.5"
-                r="7"
-                stroke="#404040"
-                strokeWidth="1.5"
-              />
-              <path
-                d="M13.5 13.5L17 17"
-                stroke="#404040"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
-          <button className="relative w-[32px] h-[32px] rounded-full bg-gray-50 hover:bg-gray-100 transition flex items-center justify-center">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M15 6.66667C15 5.34058 14.4732 4.06881 13.5355 3.13113C12.5979 2.19345 11.3261 1.66667 10 1.66667C8.67392 1.66667 7.40215 2.19345 6.46447 3.13113C5.52678 4.06881 5 5.34058 5 6.66667C5 12.5 2.5 14.1667 2.5 14.1667H17.5C17.5 14.1667 15 12.5 15 6.66667Z"
-                stroke="#404040"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M11.4417 17.5C11.2952 17.7526 11.0849 17.9622 10.8319 18.1079C10.5789 18.2537 10.292 18.3304 10 18.3304C9.70803 18.3304 9.42117 18.2537 9.16816 18.1079C8.91515 17.9622 8.70484 17.7526 8.55835 17.5"
-                stroke="#404040"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <div className="absolute top-0 right-0 w-2 h-2 bg-[#45ADA1] rounded-full"></div>
-          </button>
-          <button className="w-[32px] h-[32px] rounded-full bg-gradient-to-br from-[#45ADA1] to-[#45ADA1]/70 flex items-center justify-center hover:scale-105 transition">
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="9" cy="6" r="3" fill="white" />
-              <path
-                d="M15 15.5C15 18.5 9 18.5 9 18.5C9 18.5 3 18.5 3 15.5C3 12.5 5.5 11 9 11C12.5 11 15 12.5 15 15.5Z"
-                fill="white"
-              />
-            </svg>
-          </button>
+      {/* Header with Back Button */}
+      <div className="w-full h-[60px] shadow-[0_2px_8px_rgba(69,173,161,0.15)] flex items-center px-4 bg-white flex-shrink-0 z-20">
+        <button
+          onClick={onBack}
+          className="w-[32px] h-[32px] rounded-full bg-gray-50 hover:bg-gray-100 transition flex items-center justify-center mr-3"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M12.5 15L7.5 10L12.5 5"
+              stroke="#404040"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <div>
+          <h1 className="text-[#404040] font-['Outfit'] text-[22px] font-bold">
+            All Products
+          </h1>
+          <p className="text-gray-400 font-['Outfit'] text-[12px]">
+            {filteredProducts.length} items available
+          </p>
         </div>
       </div>
 
-      {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto">
-        {/* Filters */}
-        <div className="flex gap-2 px-4 mt-4 overflow-x-auto scrollbar-hide">
+      {/* Filter Pills */}
+      <div className="px-4 py-3 bg-white flex-shrink-0">
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
           {["Organic", "Bio", "Sustainable", "Local"].map((filter) => (
             <button
               key={filter}
               onClick={() => handleFilterClick(filter)}
-              className={`px-4 py-1.5 rounded-full border-2 transition ${
+              className={`px-4 py-2 rounded-full font-['Outfit'] text-[14px] font-medium border whitespace-nowrap transition-all ${
                 selectedFilter === filter
-                  ? "bg-[#45ADA1] border-[#45ADA1]"
-                  : "bg-white border-[#E8E8E8] hover:border-[#45ADA1]"
+                  ? "bg-[#45ADA1] text-white border-[#45ADA1]"
+                  : "bg-white text-[#404040] border-[#E8E8E8]"
               }`}
             >
-              <span
-                className={`font-['Outfit'] text-[14px] font-medium ${
-                  selectedFilter === filter ? "text-white" : "text-gray-600"
-                }`}
-              >
-                {filter}
-              </span>
+              {filter}
             </button>
           ))}
         </div>
+      </div>
 
-        {/* Products Section */}
-        <div className="mt-6 px-4">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-[#404040] font-['Outfit'] text-[18px] font-semibold">
-              Fresh Products
-            </h2>
-            <button
-              onClick={() => setDetailView("products")}
-              className="text-[#45ADA1] font-['Outfit'] text-[13px] font-medium hover:underline"
-            >
-              View all
-            </button>
-          </div>
-          <div
-            className="flex flex-nowrap gap-3 overflow-x-scroll scrollbar-hide -mx-4 px-4 py-3"
-            style={{ WebkitOverflowScrolling: "touch" }}
-          >
-            {filteredProducts.map((product) => (
-              <div
-                key={product.id}
-                className="min-w-[160px] flex-shrink-0 group cursor-pointer"
-              >
-                <div className="w-[160px] h-[130px] rounded-2xl overflow-hidden shadow-md group-hover:shadow-lg group-hover:scale-105 group-hover:ring-2 group-hover:ring-[#45ADA1] transition-all relative">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-[85px] object-cover"
-                  />
-                  <div className="w-full h-[45px] bg-white flex flex-col justify-center px-3">
-                    <span className="text-black font-['Outfit'] text-[15px] font-semibold leading-tight">
-                      {product.name}
+      {/* Scrollable Grid Content */}
+      <div className="flex-1 overflow-y-auto px-4 py-4">
+        <div className="grid grid-cols-2 gap-3">
+          {filteredProducts.map((product) => (
+            <div key={product.id} className="group cursor-pointer">
+              <div className="w-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all relative">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-[110px] object-cover group-hover:scale-105 transition-transform"
+                />
+                <div className="w-full bg-white px-3 py-2">
+                  <span className="text-black font-['Outfit'] text-[15px] font-semibold leading-tight block">
+                    {product.name}
+                  </span>
+                  <div className="flex items-center justify-between mt-1">
+                    <span className="text-gray-500 font-['Outfit'] text-[11px] flex items-center gap-1">
+                      <svg width="8" height="8" viewBox="0 0 10 10" fill="none">
+                        <circle
+                          cx="5"
+                          cy="5"
+                          r="4"
+                          stroke="#45ADA1"
+                          strokeWidth="1"
+                        />
+                      </svg>
+                      {product.distance}
                     </span>
-                    <div className="flex items-center justify-between mt-0.5">
-                      <span className="text-gray-500 font-['Outfit'] text-[12px] flex items-center gap-1">
-                        <svg
-                          width="10"
-                          height="10"
-                          viewBox="0 0 10 10"
-                          fill="none"
-                        >
-                          <circle
-                            cx="5"
-                            cy="5"
-                            r="4"
-                            stroke="#45ADA1"
-                            strokeWidth="1"
-                          />
-                        </svg>
-                        {product.distance}
-                      </span>
-                      <span className="text-[#45ADA1] font-['Outfit'] text-[14px] font-bold">
-                        {product.price}
-                      </span>
-                    </div>
-                  </div>
-                  <button className="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition shadow-sm">
-                    <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-                      <path
-                        d="M17.3667 3.84166C16.9411 3.41583 16.4357 3.07803 15.8795 2.84757C15.3233 2.6171 14.7271 2.49847 14.1251 2.49847C13.523 2.49847 12.9268 2.6171 12.3706 2.84757C11.8144 3.07803 11.309 3.41583 10.8834 3.84166L10.0001 4.725L9.11673 3.84166C8.25698 2.98192 7.09092 2.49892 5.87506 2.49892C4.6592 2.49892 3.49314 2.98192 2.63339 3.84166C1.77365 4.70141 1.29065 5.86747 1.29065 7.08333C1.29065 8.29919 1.77365 9.46525 2.63339 10.325L10.0001 17.6917L17.3667 10.325C17.7926 9.89937 18.1304 9.39401 18.3608 8.83779C18.5913 8.28158 18.7099 7.6854 18.7099 7.08333C18.7099 6.48126 18.5913 5.88508 18.3608 5.32887C18.1304 4.77265 17.7926 4.26729 17.3667 3.84166Z"
-                        stroke="#1E1E1E"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Producers Section */}
-        <div className="mt-6 px-4">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-[#404040] font-['Outfit'] text-[18px] font-semibold">
-              Top Producers
-            </h2>
-            <button
-              onClick={() => setDetailView("producers")}
-              className="text-[#45ADA1] font-['Outfit'] text-[13px] font-medium hover:underline"
-            >
-              View all
-            </button>
-          </div>
-          <div
-            className="flex flex-nowrap gap-3 overflow-x-scroll scrollbar-hide -mx-4 px-4 py-3"
-            style={{ WebkitOverflowScrolling: "touch" }}
-          >
-            {producers.map((producer) => (
-              <div
-                key={producer.id}
-                className="min-w-[160px] flex-shrink-0 group cursor-pointer"
-              >
-                <div className="w-[160px] h-[130px] rounded-2xl overflow-hidden shadow-md group-hover:shadow-lg group-hover:scale-105 group-hover:ring-2 group-hover:ring-[#45ADA1] transition-all">
-                  <img
-                    src={producer.image}
-                    alt={producer.name}
-                    className="w-full h-[85px] object-cover"
-                  />
-                  <div className="w-full h-[45px] bg-white flex items-center justify-center">
-                    <span className="text-[#404040] font-['Outfit'] text-[14px] font-semibold">
-                      {producer.name}
+                    <span className="text-[#45ADA1] font-['Outfit'] text-[14px] font-bold">
+                      {product.price}
                     </span>
                   </div>
                 </div>
+                <button className="absolute top-2 right-2 w-7 h-7 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition shadow-sm">
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M17.3667 3.84166C16.9411 3.41583 16.4357 3.07803 15.8795 2.84757C15.3233 2.6171 14.7271 2.49847 14.1251 2.49847C13.523 2.49847 12.9268 2.6171 12.3706 2.84757C11.8144 3.07803 11.309 3.41583 10.8834 3.84166L10.0001 4.725L9.11673 3.84166C8.25698 2.98192 7.09092 2.49892 5.87506 2.49892C4.6592 2.49892 3.49314 2.98192 2.63339 3.84166C1.77365 4.70141 1.29065 5.86747 1.29065 7.08333C1.29065 8.29919 1.77365 9.46525 2.63339 10.325L10.0001 17.6917L17.3667 10.325C17.7926 9.89937 18.1304 9.39401 18.3608 8.83779C18.5913 8.28158 18.7099 7.6854 18.7099 7.08333C18.7099 6.48126 18.5913 5.88508 18.3608 5.32887C18.1304 4.77265 17.7926 4.26729 17.3667 3.84166Z"
+                      stroke="#1E1E1E"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Discover new stories Section */}
-        <div className="mt-6 px-4 pb-6">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-[#404040] font-['Outfit'] text-[18px] font-semibold">
-              Farm Stories
-            </h2>
-            <button
-              onClick={() => setDetailView("farms")}
-              className="text-[#45ADA1] font-['Outfit'] text-[13px] font-medium hover:underline"
-            >
-              Explore
-            </button>
-          </div>
-          <div
-            className="flex flex-nowrap gap-3 overflow-x-scroll scrollbar-hide -mx-4 px-4 py-3"
-            style={{ WebkitOverflowScrolling: "touch" }}
-          >
-            {farms.map((farm) => (
-              <div
-                key={farm.id}
-                className="min-w-[160px] flex-shrink-0 group cursor-pointer"
-              >
-                <div className="w-[160px] h-[130px] rounded-2xl overflow-hidden shadow-md group-hover:shadow-lg group-hover:scale-105 group-hover:ring-2 group-hover:ring-[#45ADA1] transition-all relative">
-                  <img
-                    src={farm.image}
-                    alt="Farm"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-2 left-2 right-2">
-                    <span className="text-white font-['Outfit'] text-[13px] font-medium">
-                      Discover the story
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -549,4 +362,4 @@ function HomeConsumer() {
   );
 }
 
-export default HomeConsumer;
+export default AllProducts;
