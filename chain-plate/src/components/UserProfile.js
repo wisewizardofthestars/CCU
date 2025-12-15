@@ -129,10 +129,10 @@ function UserProfile({
             </div>
             <div className="bg-white rounded-2xl shadow-md p-4 text-center">
               <p className="text-[#45ADA1] font-['Outfit'] text-[24px] font-bold">
-                {userData.rewards}
+                {userData.chainies || 0}
               </p>
               <p className="text-gray-500 font-['Outfit'] text-[11px]">
-                Points
+                Chainies
               </p>
             </div>
           </div>
@@ -214,7 +214,6 @@ function UserProfile({
             </svg>
           </button>
 
-          
           <button
             onClick={() => onNavigateToPurchases(userData.pastPurchases)}
             className="w-full bg-white rounded-2xl shadow-md p-4 flex items-center justify-between hover:shadow-lg transition group"

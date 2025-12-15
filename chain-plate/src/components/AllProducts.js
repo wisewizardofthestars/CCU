@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 
 const API_URL = "http://localhost:3001";
 
-function AllProducts({ onBack, selectedFilter, onFilterChange }) {
+function AllProducts({
+  onBack,
+  selectedFilter,
+  onFilterChange,
+  onProductClick,
+  onNavigateToMap,
+  onNavigateToSaved,
+  onNavigateToRewards,
+}) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -235,7 +243,11 @@ function AllProducts({ onBack, selectedFilter, onFilterChange }) {
       <div className="flex-1 overflow-y-auto px-4 py-4">
         <div className="grid grid-cols-2 gap-3">
           {filteredProducts.map((product) => (
-            <div key={product.id} className="group cursor-pointer">
+            <div
+              key={product.id}
+              className="group cursor-pointer"
+              onClick={() => onProductClick && onProductClick(product)}
+            >
               <div className="w-full rounded-2xl overflow-hidden shadow-md group-hover:shadow-lg group-hover:scale-105 group-hover:ring-2 group-hover:ring-[#45ADA1] transition-all relative">
                 <img
                   src={product.image}
@@ -283,7 +295,10 @@ function AllProducts({ onBack, selectedFilter, onFilterChange }) {
 
       {/* Bottom Navigation */}
       <div className="w-full h-[70px] border-t border-[#E8E8E8] bg-white/95 backdrop-blur-md flex items-center justify-around px-4 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] flex-shrink-0 z-20">
-        <button className="relative flex flex-col items-center gap-1 group">
+        <button
+          onClick={onBack}
+          className="relative flex flex-col items-center gap-1 group"
+        >
           <div className="w-12 h-12 rounded-full bg-[#45ADA1] flex items-center justify-center shadow-lg group-hover:scale-110 transition">
             <svg width="24" height="24" viewBox="0 0 28 32" fill="none">
               <path
@@ -295,7 +310,10 @@ function AllProducts({ onBack, selectedFilter, onFilterChange }) {
           </div>
         </button>
 
-        <button className="flex flex-col items-center gap-1 hover:scale-110 transition">
+        <button
+          onClick={onNavigateToMap}
+          className="flex flex-col items-center gap-1 hover:scale-110 transition"
+        >
           <svg width="28" height="28" viewBox="0 0 31 31" fill="none">
             <path
               d="M10.3333 23.25L1.29163 28.4167V7.75001L10.3333 2.58334M10.3333 23.25L20.6666 28.4167M10.3333 23.25V2.58334M20.6666 28.4167L29.7083 23.25V2.58334L20.6666 7.75001M20.6666 28.4167V7.75001M20.6666 7.75001L10.3333 2.58334"
@@ -328,7 +346,10 @@ function AllProducts({ onBack, selectedFilter, onFilterChange }) {
           </span>
         </button>
 
-        <button className="flex flex-col items-center gap-1 hover:scale-110 transition">
+        <button
+          onClick={onNavigateToSaved}
+          className="flex flex-col items-center gap-1 hover:scale-110 transition"
+        >
           <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
             <path
               d="M27.7867 6.14666C27.1057 5.46533 26.2971 4.92485 25.4071 4.5561C24.5172 4.18735 23.5633 3.99756 22.6 3.99756C21.6367 3.99756 20.6828 4.18735 19.7929 4.5561C18.9029 4.92485 18.0943 5.46533 17.4133 6.14666L16 7.55999L14.5867 6.14666C13.2111 4.77107 11.3454 3.99827 9.4 3.99827C7.45462 3.99827 5.58892 4.77107 4.21333 6.14666C2.83774 7.52225 2.06494 9.38795 2.06494 11.3333C2.06494 13.2787 2.83774 15.1444 4.21333 16.52L16 28.3067L27.7867 16.52C28.468 15.839 29.0085 15.0304 29.3772 14.1405C29.746 13.2505 29.9358 12.2966 29.9358 11.3333C29.9358 10.37 29.746 9.41613 29.3772 8.52619C29.0085 7.63624 28.468 6.82767 27.7867 6.14666Z"
@@ -343,18 +364,21 @@ function AllProducts({ onBack, selectedFilter, onFilterChange }) {
           </span>
         </button>
 
-        <button className="flex flex-col items-center gap-1 hover:scale-110 transition">
+        <button
+          onClick={onNavigateToRewards}
+          className="flex flex-col items-center gap-1 hover:scale-110 transition"
+        >
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="9" stroke="#8E8E8E" strokeWidth="2" />
             <path
-              d="M12 7V12L15 15"
+              d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
               stroke="#8E8E8E"
               strokeWidth="2"
               strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
           <span className="text-[10px] text-gray-400 font-['Outfit']">
-            Orders
+            Rewards
           </span>
         </button>
       </div>

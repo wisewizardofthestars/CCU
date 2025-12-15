@@ -97,61 +97,70 @@ function PurchasesPage({ onBack, pastPurchases = [] }) {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="absolute bottom-0 w-full bg-white border-t border-[#D9D9D9] h-[60px] flex items-center justify-around px-4 flex-shrink-0">
-        <button className="flex flex-col items-center gap-1 group">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <div className="w-full h-[70px] border-t border-[#E8E8E8] bg-white/95 backdrop-blur-md flex items-center justify-around px-4 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] flex-shrink-0 z-20">
+        <button className="flex flex-col items-center gap-1 hover:scale-110 transition">
+          <svg width="28" height="28" viewBox="0 0 28 32" fill="none">
             <path
-              d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
+              d="M1 10.7388V30.2388H9.5V25.2388V18.7388H18.5V24.7388V30.2388H27V10.7388L13.5 1.23877L1 10.7388Z"
               stroke="#8E8E8E"
               strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M9 22V12H15V22"
-              stroke="#8E8E8E"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
             />
           </svg>
-          <span className="text-[10px] text-[#8E8E8E] font-['Outfit']">
+          <span className="text-[10px] text-gray-400 font-['Outfit']">
             Home
           </span>
         </button>
 
-        <button className="flex flex-col items-center gap-1 group">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <button className="flex flex-col items-center gap-1 hover:scale-110 transition">
+          <svg width="28" height="28" viewBox="0 0 31 31" fill="none">
             <path
-              d="M20.84 4.61C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.57831 8.50903 2.9987 7.05 2.9987C5.59096 2.9987 4.19169 3.57831 3.16 4.61C2.1283 5.64169 1.54869 7.04097 1.54869 8.5C1.54869 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7563 11.2728 22.0329 10.6053C22.3095 9.93789 22.4518 9.22248 22.4518 8.5C22.4518 7.77752 22.3095 7.06211 22.0329 6.39467C21.7563 5.72723 21.351 5.12087 20.84 4.61Z"
+              d="M10.3333 23.25L1.29163 28.4167V7.75001L10.3333 2.58334M10.3333 23.25L20.6666 28.4167M10.3333 23.25V2.58334M20.6666 28.4167L29.7083 23.25V2.58334L20.6666 7.75001M20.6666 28.4167V7.75001M20.6666 7.75001L10.3333 2.58334"
               stroke="#8E8E8E"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
           </svg>
-          <span className="text-[10px] text-[#8E8E8E] font-['Outfit']">
+          <span className="text-[10px] text-gray-400 font-['Outfit']">Map</span>
+        </button>
+
+        <button className="flex flex-col items-center hover:scale-110 transition">
+          <div className="w-14 h-14 -mt-7 rounded-2xl bg-gradient-to-br from-[#45ADA1] to-[#3d9a8f] flex flex-col items-center justify-center shadow-xl hover:shadow-2xl transition">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <rect
+                x="3"
+                y="3"
+                width="18"
+                height="18"
+                rx="2"
+                stroke="white"
+                strokeWidth="2"
+              />
+              <path d="M3 9H21M9 3V21M15 9V21" stroke="white" strokeWidth="2" />
+            </svg>
+          </div>
+          <span className="text-[10px] text-[#45ADA1] font-['Outfit'] font-medium mt-1">
+            SCAN
+          </span>
+        </button>
+
+        <button className="flex flex-col items-center gap-1 hover:scale-110 transition">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+            <path
+              d="M27.7867 6.14666C27.1057 5.46533 26.2971 4.92485 25.4071 4.5561C24.5172 4.18735 23.5633 3.99756 22.6 3.99756C21.6367 3.99756 20.6828 4.18735 19.7929 4.5561C18.9029 4.92485 18.0943 5.46533 17.4133 6.14666L16 7.55999L14.5867 6.14666C13.2111 4.77107 11.3454 3.99827 9.4 3.99827C7.45462 3.99827 5.58892 4.77107 4.21333 6.14666C2.83774 7.52225 2.06494 9.38795 2.06494 11.3333C2.06494 13.2787 2.83774 15.1444 4.21333 16.52L16 28.3067L27.7867 16.52C28.468 15.839 29.0085 15.0304 29.3772 14.1405C29.746 13.2505 29.9358 12.2966 29.9358 11.3333C29.9358 10.37 29.746 9.41613 29.3772 8.52619C29.0085 7.63624 28.468 6.82767 27.7867 6.14666Z"
+              stroke="#8E8E8E"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span className="text-[10px] text-gray-400 font-['Outfit']">
             Saved
           </span>
         </button>
 
-        <button className="flex flex-col items-center gap-1 -mt-6">
-          <div className="w-14 h-14 bg-[#45ADA1] rounded-full flex items-center justify-center shadow-lg">
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="2"
-            >
-              <path d="M12 5V19M5 12H19" strokeLinecap="round" />
-            </svg>
-          </div>
-        </button>
-
-        <button className="flex flex-col items-center gap-1 group">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <button className="flex flex-col items-center gap-1 hover:scale-110 transition">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
             <path
               d="M9 20L3 17V4L9 7M9 20L15 17M9 20V7M15 17L21 20V7L15 4M15 17V4M9 7L15 4"
               stroke="#8E8E8E"

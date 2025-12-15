@@ -6,7 +6,11 @@ import MapPage from "./MapPage";
 import UserProfile from "./UserProfile";
 import SavedPage from "./SavedPage";
 import PurchasesPage from "./PurchasesPage";
+import ProductDetailPage from "./ProductDetailPage";
+import ProducerDetailPage from "./ProducerDetailPage";
 import PointsPage from "./PointsPage";
+import SpendPointsPage from "./SpendPointsPage";
+import CollectionPage from "./CollectionPage";
 
 const API_URL = "http://localhost:3001";
 
@@ -21,6 +25,9 @@ function HomeConsumer() {
   const [purchasesData, setPurchasesData] = useState([]);
   const [likedProductIds, setLikedProductIds] = useState([]);
   const [likedProducerIds, setLikedProducerIds] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProducer, setSelectedProducer] = useState(null);
+  const [previousView, setPreviousView] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -225,6 +232,13 @@ function HomeConsumer() {
         onBack={() => setDetailView(null)}
         selectedFilter={selectedFilter}
         onFilterChange={handleFilterClick}
+        onProductClick={(product) => {
+          setSelectedProduct(product);
+          setDetailView("productDetail");
+        }}
+        onNavigateToMap={() => setDetailView("map")}
+        onNavigateToSaved={handleNavigateToSaved}
+        onNavigateToRewards={() => setDetailView("rewards")}
       />
     );
   }
@@ -234,14 +248,58 @@ function HomeConsumer() {
         onBack={() => setDetailView(null)}
         selectedFilter={selectedFilter}
         onFilterChange={handleFilterClick}
+        onNavigateToMap={() => setDetailView("map")}
+        onNavigateToSaved={handleNavigateToSaved}
+        onNavigateToRewards={() => setDetailView("rewards")}
+        onProducerClick={(producerId) => {
+          setPreviousView("producers");
+          setSelectedProducer(producerId);
+          setDetailView("producerDetail");
+        }}
+      />
+    );
+  }
+  if (detailView === "producerDetail" && selectedProducer) {
+    return (
+      <ProducerDetailPage
+        producerId={selectedProducer}
+        onBack={() => {
+          setSelectedProducer(null);
+          setDetailView(previousView);
+          setPreviousView(null);
+        }}
+        onNavigateToHome={() => setDetailView(null)}
+        onNavigateToMap={() => setDetailView("map")}
+        onNavigateToSaved={handleNavigateToSaved}
+        onNavigateToRewards={() => setDetailView("rewards")}
+        onLikeToggle={() => {
+          const producer = producers.find((p) => p.id === selectedProducer);
+          if (producer) handleLikeProducer(producer);
+        }}
+        isLiked={likedProducerIds.includes(selectedProducer)}
       />
     );
   }
   if (detailView === "farms") {
-    return <AllFarms onBack={() => setDetailView(null)} />;
+    return (
+      <AllFarms
+        onBack={() => setDetailView(null)}
+        onNavigateToMap={() => setDetailView("map")}
+        onNavigateToSaved={handleNavigateToSaved}
+        onNavigateToRewards={() => setDetailView("rewards")}
+      />
+    );
   }
   if (detailView === "map") {
-    return <MapPage onBack={() => setDetailView(null)} />;
+    return (
+      <MapPage
+        onBack={() => setDetailView(null)}
+        onNavigateToHome={() => setDetailView(null)}
+        onNavigateToMap={() => setDetailView("map")}
+        onNavigateToSaved={handleNavigateToSaved}
+        onNavigateToRewards={() => setDetailView("rewards")}
+      />
+    );
   }
   if (detailView === "profile") {
     return (
@@ -268,6 +326,23 @@ function HomeConsumer() {
         onBack={() => setDetailView(null)}
         savedProducts={savedProductsData}
         onProductUnliked={refreshLikedProducts}
+        onNavigateToHome={() => setDetailView(null)}
+        onNavigateToMap={() => setDetailView("map")}
+        onNavigateToSaved={handleNavigateToSaved}
+        onNavigateToRewards={() => setDetailView("rewards")}
+      />
+    );
+  }
+  if (detailView === "productDetail" && selectedProduct) {
+    return (
+      <ProductDetailPage
+        product={selectedProduct}
+        onBack={() => {
+          setDetailView(null);
+          setSelectedProduct(null);
+        }}
+        onLikeToggle={() => handleLikeProduct(selectedProduct)}
+        isLiked={likedProductIds.includes(selectedProduct.id)}
       />
     );
   }
@@ -279,10 +354,35 @@ function HomeConsumer() {
       />
     );
   }
-  if (detailView === "points") {
+  if (detailView === "rewards") {
     return (
       <PointsPage
         onBack={() => setDetailView(null)}
+        onNavigateToHome={() => setDetailView(null)}
+        onNavigateToMap={() => setDetailView("map")}
+        onNavigateToSaved={handleNavigateToSaved}
+        onNavigateToSpend={() => setDetailView("spendPoints")}
+        onNavigateToCollection={() => setDetailView("collection")}
+      />
+    );
+  }
+
+    if (detailView === "collection") {
+    return (
+      <CollectionPage
+        onBack={() => setDetailView("rewards")}
+        onNavigateToHome={() => setDetailView(null)}
+        onNavigateToMap={() => setDetailView("map")}
+        onNavigateToSaved={handleNavigateToSaved}
+      />
+    );
+  }
+
+
+  if (detailView === "spendPoints") {
+    return (
+      <SpendPointsPage
+        onBack={() => setDetailView("rewards")}
         onNavigateToHome={() => setDetailView(null)}
         onNavigateToMap={() => setDetailView("map")}
         onNavigateToSaved={handleNavigateToSaved}
@@ -563,6 +663,10 @@ function HomeConsumer() {
               <div
                 key={product.id}
                 className="min-w-[160px] flex-shrink-0 group cursor-pointer"
+                onClick={() => {
+                  setSelectedProduct(product);
+                  setDetailView("productDetail");
+                }}
               >
                 <div className="w-[160px] h-[130px] rounded-2xl overflow-hidden shadow-md group-hover:shadow-lg group-hover:scale-105 group-hover:ring-2 group-hover:ring-[#45ADA1] transition-all relative">
                   <img
@@ -655,6 +759,11 @@ function HomeConsumer() {
               <div
                 key={producer.id}
                 className="min-w-[160px] flex-shrink-0 group cursor-pointer"
+                onClick={() => {
+                  setPreviousView(null);
+                  setSelectedProducer(producer.id);
+                  setDetailView("producerDetail");
+                }}
               >
                 <div className="w-[160px] h-[130px] rounded-2xl overflow-hidden shadow-md group-hover:shadow-lg group-hover:scale-105 group-hover:ring-2 group-hover:ring-[#45ADA1] transition-all relative">
                   <img
@@ -814,7 +923,7 @@ function HomeConsumer() {
         </button>
 
         <button
-          onClick={() => setDetailView("points")}
+          onClick={() => setDetailView("rewards")}
           className="flex flex-col items-center gap-1 hover:scale-110 transition"
         >
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none">

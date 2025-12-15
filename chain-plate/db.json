@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Mirtilos",
       "image": "https://attra.ncat.org/wp-content/uploads/2024/01/blueberry-bush-cropped-1-1030x988.jpg",
       "distance": "1.7 km",
@@ -13,7 +13,7 @@
       "producerId": 1
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Morangos",
       "image": "https://www.noursefarms.com/cdn/shop/articles/53582790807_8a555b26c2_o.jpg?v=1741295034",
       "distance": "0.3 km",
@@ -25,7 +25,7 @@
       "producerId": 2
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Uvas",
       "image": "https://www.thespruceeats.com/thmb/ItoIhFNhvSShSPsGlhtWCZHUNyo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Autumn_Royal_grapes-56a5b4875f9b58b7d0de0c32.jpg",
       "distance": "1.2 km",
@@ -37,7 +37,7 @@
       "producerId": 1
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Laranjas",
       "image": "https://cdn1.bloomingdesert.com/wp-content/uploads/2016/11/orange-tree-plant-care.jpg",
       "distance": "2.1 km",
@@ -49,7 +49,7 @@
       "producerId": 3
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Maçãs",
       "image": "https://www.koppertus.com/content/_processed_/d/6/csm_Apple_12e6b1fddd.jpg",
       "distance": "0.8 km",
@@ -60,7 +60,7 @@
       "producerId": 2
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Peras",
       "image": "https://www.koppertus.com/content/_processed_/d/6/csm_Apple_12e6b1fddd.jpg",
       "distance": "3.2 km",
@@ -71,7 +71,7 @@
       "producerId": 3
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "Cerejas",
       "image": "https://www.allrecipes.com/thmb/epajfpP7nq4u4zM1P9ytFvVVVlo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/ALR-when-are-cherries-in-season-16f3161d401c47c88ebd68930c6444b3.jpg",
       "distance": "1.5 km",
@@ -82,7 +82,7 @@
       "producerId": 1
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "Melancia",
       "image": "https://media.post.rvohealth.io/wp-content/uploads/sites/3/2025/01/benefits-watermelon-GettyImages-1331129269-Facebook.jpg",
       "distance": "2.8 km",
@@ -94,7 +94,7 @@
       "producerId": 2
     },
     {
-      "id": 9,
+      "id": "9",
       "name": "Kiwis",
       "image": "https://www.agrotec.pt/userfiles/image/dropzone/blogs/20170904235133-kiwi_0015.jpg",
       "distance": "0.9 km",
@@ -106,7 +106,7 @@
       "producerId": 1
     },
     {
-      "id": 10,
+      "id": "10",
       "name": "Abacate",
       "image": "https://media.self.com/photos/5b43712e4d0c3c282a8878d1/4:3/w_2560%2Cc_limit/avocado.jpg",
       "distance": "1.3 km",
@@ -119,7 +119,7 @@
   ],
   "producers": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Maria Silva",
       "image": "https://img.freepik.com/premium-photo/happy-asian-farmer-holding-fresh-rambutan-rambutan-garden-organic-fruit-agriculture-concept_61243-1574.jpg",
       "distance": "0.3 km",
@@ -130,7 +130,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "João Costa",
       "image": "https://cax-wp-farmers-prod-uploads.s3.amazonaws.com/app/uploads/2016/05/Proactive-fruit-farming-techniques.jpg",
       "distance": "1.2 km",
@@ -141,7 +141,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Quinta da Serra",
       "image": "https://www.portugalfarmexperience.com/wp-content/uploads/sites/2986/2025/01/porto-fruit-farm-tour_4.jpg?resize=360%2C240&zoom=2",
       "distance": "2.1 km",
@@ -152,7 +152,7 @@
       ]
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Ana Santos",
       "image": "https://www.visitnsw.com/sites/visitnsw/files/styles/article_mobile_x2/public/2023-02/184843_Hillside_Harvest.jpg?h=f0fb51a5&itok=x5GhCNbf",
       "distance": "3.5 km",
@@ -162,7 +162,7 @@
       ]
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Pedro Alves",
       "image": "https://c.files.bbci.co.uk/d43d/live/0eab06c0-3648-11f0-8185-6772e52c97ad.jpg",
       "distance": "0.8 km",
@@ -173,7 +173,7 @@
       ]
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Quinta do Vale",
       "image": "https://api.builder.io/api/v1/image/assets/TEMP/76bef47eb5c82b8c4e6dde27d1b2f2edf3a54e1b?width=100",
       "distance": "1.9 km",
@@ -184,7 +184,7 @@
       ]
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "Sofia Rocha",
       "image": "https://api.builder.io/api/v1/image/assets/TEMP/1aaf313f9e80bb6a0b43eeee76b2823d85d60e90?width=100",
       "distance": "2.7 km",
@@ -194,7 +194,7 @@
       ]
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "Carlos Ferreira",
       "image": "https://api.builder.io/api/v1/image/assets/TEMP/b7c76baa0e5be8c5f29889f8b75d82ab903638f8?width=100",
       "distance": "3.2 km",
@@ -207,7 +207,7 @@
   ],
   "farms": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Day at the farm",
       "image": "https://www.liveabout.com/thmb/ptbMMhEEAzP6R9xjEhOWctxcBpE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-688025709-fcd7aaeb1e444b2893302c9fb89b583d.jpg",
       "description": "Experience a peaceful day at our organic farm...",
@@ -218,7 +218,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Harvest season",
       "image": "https://www.timeforkids.com/wp-content/uploads/2019/08/pump-final.jpg?w=1024",
       "description": "Join us during the exciting harvest season...",
@@ -229,7 +229,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Farm to table",
       "image": "https://images.squarespace-cdn.com/content/v1/5d96d524052c897425394aaf/7f17f583-0ec1-40a5-9ebf-2bb221ae5e1c/what-does-farm-to-table-mean.jpg",
       "description": "Discover how fresh produce goes from farm to table...",
@@ -240,7 +240,7 @@
       ]
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "Sunrise harvest",
       "image": "https://theyoungerwine.com/wp-content/uploads/2022/04/img_4920.jpg?w=1568",
       "description": "Wake up early and harvest with us at sunrise...",
@@ -251,7 +251,7 @@
       ]
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "Kids at the farm",
       "image": "https://api.builder.io/api/v1/image/assets/TEMP/9c8e5e1fd96c1a8a4b79c8d73da5f2e8ab903638?width=302",
       "description": "Educational experience for children and families...",
@@ -262,7 +262,7 @@
       ]
     },
     {
-      "id": 6,
+      "id": "6",
       "title": "Organic gardens",
       "image": "https://api.builder.io/api/v1/image/assets/TEMP/a1b2c3d4e5f67890abc123def456789012345678?width=302",
       "description": "Tour our beautiful organic gardens...",
@@ -273,7 +273,7 @@
       ]
     },
     {
-      "id": 7,
+      "id": "7",
       "title": "Weekend workshop",
       "image": "https://api.builder.io/api/v1/image/assets/TEMP/f79b7a59774a20f01b2a8ee47ab68ef94b3d5e5c?width=302",
       "description": "Learn sustainable farming techniques...",
@@ -286,7 +286,7 @@
   ],
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Maria Silva",
       "email": "maria.silva@email.com",
       "joined": "December 2024",
@@ -404,22 +404,35 @@
       "email": "a@a",
       "joined": "December 2025",
       "totalPurchases": 0,
-      "savedItems": 1,
+      "savedItems": 2,
       "rewards": 0,
       "pastPurchases": [],
       "likedProducts": [
         {
-          "id": 2,
-          "name": "Morangos",
-          "producer": "Local Producer",
-          "price": "2.3€",
+          "id": "producer_1",
+          "producerId": "1",
+          "name": "Products by Maria Silva",
+          "producer": "Maria Silva",
+          "price": "Various",
           "tags": [
-            "Bio",
-            "Fresh"
+            "Organic",
+            "Local"
           ],
-          "image": "https://www.noursefarms.com/cdn/shop/articles/53582790807_8a555b26c2_o.jpg?v=1741295034"
+          "image": "https://img.freepik.com/premium-photo/happy-asian-farmer-holding-fresh-rambutan-rambutan-garden-organic-fruit-agriculture-concept_61243-1574.jpg"
+        },
+        {
+          "id": "1",
+          "name": "Mirtilos",
+          "producer": "Local Producer",
+          "price": "1.5€",
+          "tags": [
+            "Organic",
+            "Local"
+          ],
+          "image": "https://attra.ncat.org/wp-content/uploads/2024/01/blueberry-bush-cropped-1-1030x988.jpg"
         }
-      ]
+      ],
+      "chainies": 150
     }
   ]
 }

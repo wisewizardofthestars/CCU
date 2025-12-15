@@ -1,122 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-const API_URL = "http://localhost:3001";
+import sticker1 from "./images/collection/image.png";
+import sticker2 from "./images/collection/image1.png";
+import sticker3 from "./images/collection/image2.png";
 
-function AllProducers({
+function CollectionPage({
   onBack,
-  selectedFilter,
-  onFilterChange,
+  onNavigateToHome,
   onNavigateToMap,
   onNavigateToSaved,
-  onNavigateToRewards,
-  onProducerClick,
 }) {
-  const [producers, setProducers] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchProducers = async () => {
-      try {
-        const response = await fetch(`${API_URL}/producers`);
-        const data = await response.json();
-        setProducers(data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching producers:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchProducers();
-  }, []);
-
-  const filteredProducers = selectedFilter
-    ? producers.filter((p) => p.tags && p.tags.includes(selectedFilter))
-    : producers;
-
-  const handleFilterClick = (filter) => {
-    onFilterChange(selectedFilter === filter ? null : filter);
-  };
-
-  if (loading) {
-    return (
-      <div className="w-full max-w-[360px] mx-auto h-screen bg-white flex items-center justify-center">
-        <div className="text-[#45ADA1] font-['Outfit'] text-[18px] font-semibold">
-          Loading...
-        </div>
-      </div>
-    );
-  }
-
-  const oldProducers = [
-    {
-      id: 1,
-      name: "Quinta",
-      subtitle: "do Monte",
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/1aaf313f9e80bb6a0b43eeee76b2823d85d60e90?width=100",
-      distance: "0.3 km",
-    },
-    {
-      id: 2,
-      name: "Quinta",
-      subtitle: "da Praia",
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/b7c76baa0e5be8c5f29889f8b75d82ab903638f8?width=100",
-      distance: "1.2 km",
-    },
-    {
-      id: 3,
-      name: "Quinta",
-      subtitle: "da Serra",
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/76bef47eb5c82b8c4e6dde27d1b2f2edf3a54e1b?width=100",
-      distance: "2.1 km",
-    },
-    {
-      id: 4,
-      name: "Quinta",
-      subtitle: "do Vale",
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/1aaf313f9e80bb6a0b43eeee76b2823d85d60e90?width=100",
-      distance: "3.5 km",
-    },
-    {
-      id: 5,
-      name: "Quinta",
-      subtitle: "do Sol",
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/b7c76baa0e5be8c5f29889f8b75d82ab903638f8?width=100",
-      distance: "0.8 km",
-    },
-    {
-      id: 6,
-      name: "Quinta",
-      subtitle: "da Lua",
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/76bef47eb5c82b8c4e6dde27d1b2f2edf3a54e1b?width=100",
-      distance: "1.9 km",
-    },
-    {
-      id: 7,
-      name: "Quinta",
-      subtitle: "do Rio",
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/1aaf313f9e80bb6a0b43eeee76b2823d85d60e90?width=100",
-      distance: "2.7 km",
-    },
-    {
-      id: 8,
-      name: "Quinta",
-      distance: "3.2 km",
-    },
-  ];
-
   return (
     <div className="w-full max-w-[360px] mx-auto h-screen bg-white relative flex flex-col font-['Outfit']">
-      {/* Status Bar */}
+       {/* Status Bar */}
       <div className="w-full h-[37px] border-b border-[#D9D9D9] bg-white flex items-center justify-between px-2 flex-shrink-0 z-20">
-        <div className="text-base font-normal text-black">16:20</div>
+        <div className="text-base font-roboto text-black">16:20</div>
         <div className="flex items-center gap-[5px]">
           <svg
             width="15"
@@ -158,119 +56,60 @@ function AllProducers({
           </svg>
         </div>
       </div>
-
-      {/* Header with Back Button */}
-      <div className="w-full h-[60px] shadow-[0_2px_8px_rgba(69,173,161,0.15)] flex items-center px-4 bg-white flex-shrink-0 z-20">
-        <button
-          onClick={onBack}
-          className="w-[32px] h-[32px] rounded-full bg-gray-50 hover:bg-gray-100 transition flex items-center justify-center mr-3"
-        >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path
-              d="M12.5 15L7.5 10L12.5 5"
-              stroke="#404040"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-        <div>
-          <h1 className="text-[#404040] font-['Outfit'] text-[22px] font-bold">
-            All Producers
-          </h1>
-          <p className="text-gray-400 font-['Outfit'] text-[12px]">
-            {filteredProducers.length} producers nearby
-          </p>
+      {/* Top Header Bar */}
+      <div className="w-full h-[50px] shadow-[0_2px_8px_rgba(69,173,161,0.15)] flex items-center justify-between px-4 bg-white flex-shrink-0 z-20">
+        <div className="flex items-center gap-2">
+          <div className="w-[32px] h-[32px] bg-gradient-to-br from-[#45ADA1] to-[#45ADA1]/70 rounded-lg flex items-center justify-center">
+            <span className="text-white text-[18px] font-bold">C</span>
+          </div>
+          <div>
+            <h3 className="text-[#45ADA1] text-[16px] font-semibold leading-tight">
+              ChainPlate
+            </h3>
+            <p className="text-gray-400 text-[10px] leading-tight">
+              Farm to Table
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Filter Pills */}
-      <div className="px-4 py-3 bg-white flex-shrink-0">
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-          {["Organic", "Bio", "Sustainable", "Local"].map((filter) => (
-            <button
-              key={filter}
-              onClick={() => handleFilterClick(filter)}
-              className={`px-4 py-2 rounded-full font-['Outfit'] text-[14px] font-medium border whitespace-nowrap transition-all ${
-                selectedFilter === filter
-                  ? "bg-[#45ADA1] text-white border-[#45ADA1]"
-                  : "bg-white text-[#404040] border-[#E8E8E8]"
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
+      {/* Scrollable Content */}
+      <div className="flex-1 overflow-y-auto pb-[90px]">
+        <div className="px-4 pt-6 pb-24">
+          <h2 className="text-[#404040] text-[18px] font-semibold mb-4">
+            My Stickers
+          </h2>
+
+          <div className="grid grid-cols-3 gap-4">
+            {/* UNLOCKED */}
+            <StickerUnlocked src={sticker1} />
+            <StickerUnlocked src={sticker2} />
+            <StickerUnlocked src={sticker3} />
+
+            {/* LOCKED */}
+            <StickerLocked />
+            <StickerLocked />
+            <StickerLocked />
+          </div>
         </div>
       </div>
 
-      {/* Scrollable Grid Content */}
-      <div className="flex-1 overflow-y-auto px-4 py-4">
-        <div className="grid grid-cols-2 gap-3">
-          {filteredProducers.map((producer) => (
-            <div
-              key={producer.id}
-              className="group cursor-pointer"
-              onClick={() => onProducerClick && onProducerClick(producer.id)}
-            >
-              <div className="w-full rounded-2xl overflow-hidden shadow-md group-hover:shadow-lg group-hover:scale-105 group-hover:ring-2 group-hover:ring-[#45ADA1] transition-all relative">
-                <img
-                  src={producer.image}
-                  alt={producer.name}
-                  className="w-full h-[110px] object-cover"
-                />
-                <div className="w-full bg-white px-3 py-2">
-                  <span className="text-black font-['Outfit'] text-[15px] font-semibold leading-tight block">
-                    {producer.name}
-                  </span>
-                  <div className="flex items-center justify-between mt-1">
-                    <span className="text-gray-500 font-['Outfit'] text-[11px] flex items-center gap-1">
-                      <svg width="8" height="8" viewBox="0 0 10 10" fill="none">
-                        <circle
-                          cx="5"
-                          cy="5"
-                          r="4"
-                          stroke="#45ADA1"
-                          strokeWidth="1"
-                        />
-                      </svg>
-                      {producer.distance}
-                    </span>
-                    {producer.tags && producer.tags.length > 0 && (
-                      <div className="flex gap-1">
-                        {producer.tags.slice(0, 2).map((tag, idx) => (
-                          <span
-                            key={idx}
-                            className="text-[#45ADA1] font-['Outfit'] text-[9px] px-1.5 py-0.5 bg-[#45ADA1]/10 rounded"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Bottom Navigation */}
+ {/* Bottom Navigation */}
       <div className="w-full h-[70px] border-t border-[#E8E8E8] bg-white/95 backdrop-blur-md flex items-center justify-around px-4 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] flex-shrink-0 z-20">
         <button
-          onClick={onBack}
-          className="relative flex flex-col items-center gap-1 group"
+          onClick={onNavigateToHome}
+          className="flex flex-col items-center gap-1 hover:scale-110 transition"
         >
-          <div className="w-12 h-12 rounded-full bg-[#45ADA1] flex items-center justify-center shadow-lg group-hover:scale-110 transition">
-            <svg width="24" height="24" viewBox="0 0 28 32" fill="none">
-              <path
-                d="M1 10.7388V30.2388H9.5V25.2388V18.7388H18.5V24.7388V30.2388H27V10.7388L13.5 1.23877L1 10.7388Z"
-                stroke="white"
-                strokeWidth="2"
-              />
-            </svg>
-          </div>
+          <svg width="28" height="28" viewBox="0 0 28 32" fill="none">
+            <path
+              d="M1 10.7388V30.2388H9.5V25.2388V18.7388H18.5V24.7388V30.2388H27V10.7388L13.5 1.23877L1 10.7388Z"
+              stroke="#8E8E8E"
+              strokeWidth="2"
+            />
+          </svg>
+          <span className="text-[10px] text-gray-400 font-['Outfit']">
+            Home
+          </span>
         </button>
 
         <button
@@ -328,25 +167,58 @@ function AllProducers({
         </button>
 
         <button
-          onClick={onNavigateToRewards}
-          className="flex flex-col items-center gap-1 hover:scale-110 transition"
+          onClick={onBack}
+          className="relative flex flex-col items-center gap-1 group"
         >
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-              stroke="#8E8E8E"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span className="text-[10px] text-gray-400 font-['Outfit']">
-            Rewards
-          </span>
+          <div className="w-12 h-12 rounded-full bg-[#45ADA1] flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
         </button>
       </div>
     </div>
   );
 }
 
-export default AllProducers;
+/* ---------- Small Components ---------- */
+
+function StickerUnlocked({ src }) {
+  return (
+    <div className="relative aspect-square rounded-2xl overflow-hidden shadow-md bg-white hover:scale-105 hover:shadow-lg transition">
+      <img
+        src={src}
+        alt="Sticker"
+        className="w-full h-full object-contain p-4"
+      />
+    </div>
+  );
+}
+
+function StickerLocked() {
+  return (
+    <div className="relative aspect-square rounded-2xl bg-gray-100 shadow-inner flex items-center justify-center">
+      <svg
+        width="26"
+        height="26"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#9CA3AF"
+        strokeWidth="2"
+      >
+        <rect x="3" y="11" width="18" height="10" rx="2" />
+        <path d="M7 11V7a5 5 0 0110 0v4" />
+      </svg>
+    </div>
+  );
+}
+
+
+
+export default CollectionPage;
