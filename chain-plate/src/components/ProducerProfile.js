@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-function UserProfile({
-  onBack,
-  onLogout,
-  onNavigateToSaved,
-  onNavigateToPurchases,
-}) {
+function ProducerProfile({ onBack, onLogout }) {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userId = localStorage.getItem("currentUserId") || "1";
+        const userId = localStorage.getItem("currentUserId");
         const response = await fetch(`http://localhost:3001/users/${userId}`);
         const data = await response.json();
         setUserData(data);
@@ -101,10 +96,10 @@ function UserProfile({
                 {userData.name}
               </h2>
               <p className="text-white/90 font-['Outfit'] text-[14px]">
-                {userData.email}
+                {userData.farmName || "Farm Name"}
               </p>
               <p className="text-white/80 font-['Outfit'] text-[12px] mt-1">
-                Member since {userData.joined}
+                {userData.location || "Location"}
               </p>
             </div>
           </div>
@@ -115,24 +110,24 @@ function UserProfile({
           <div className="grid grid-cols-3 gap-3">
             <div className="bg-white rounded-2xl shadow-md p-4 text-center">
               <p className="text-[#45ADA1] font-['Outfit'] text-[24px] font-bold">
-                {userData.totalPurchases}
+                {userData.totalProducts || 0}
               </p>
               <p className="text-gray-500 font-['Outfit'] text-[11px]">
-                Purchases
+                Products
               </p>
             </div>
             <div className="bg-white rounded-2xl shadow-md p-4 text-center">
               <p className="text-[#45ADA1] font-['Outfit'] text-[24px] font-bold">
-                {userData.savedItems}
+                {userData.totalSales || 0}
               </p>
-              <p className="text-gray-500 font-['Outfit'] text-[11px]">Saved</p>
+              <p className="text-gray-500 font-['Outfit'] text-[11px]">Sales</p>
             </div>
             <div className="bg-white rounded-2xl shadow-md p-4 text-center">
               <p className="text-[#45ADA1] font-['Outfit'] text-[24px] font-bold">
-                {userData.chainies || 0}
+                {userData.rating || "0.0"}
               </p>
               <p className="text-gray-500 font-['Outfit'] text-[11px]">
-                Chainies
+                Rating
               </p>
             </div>
           </div>
@@ -185,7 +180,14 @@ function UserProfile({
               <div className="w-10 h-10 rounded-full bg-[#45ADA1]/10 flex items-center justify-center">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path
-                    d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                    d="M9 11L12 14L22 4"
+                    stroke="#45ADA1"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M21 12V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H16"
                     stroke="#45ADA1"
                     strokeWidth="2"
                     strokeLinecap="round"
@@ -194,118 +196,7 @@ function UserProfile({
                 </svg>
               </div>
               <span className="text-[#404040] font-['Outfit'] text-[16px] font-medium">
-                My Rewards
-              </span>
-            </div>
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              className="group-hover:translate-x-1 transition"
-            >
-              <path
-                d="M7.5 5L12.5 10L7.5 15"
-                stroke="#8E8E8E"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-
-          <button
-            onClick={() => onNavigateToPurchases(userData.pastPurchases)}
-            className="w-full bg-white rounded-2xl shadow-md p-4 flex items-center justify-between hover:shadow-lg transition group"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#45ADA1]/10 flex items-center justify-center">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M6 2L3 6V20C3 20.5304 3.21071 21.0391 3.58579 21.4142C3.96086 21.7893 4.46957 22 5 22H19C19.5304 22 20.0391 21.7893 20.4142 21.4142C20.7893 21.0391 21 20.5304 21 20V6L18 2H6Z"
-                    stroke="#45ADA1"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M3 6H21M16 10C16 11.0609 15.5786 12.0783 14.8284 12.8284C14.0783 13.5786 13.0609 14 12 14C10.9391 14 9.92172 13.5786 9.17157 12.8284C8.42143 12.0783 8 11.0609 8 10"
-                    stroke="#45ADA1"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-              <span className="text-[#404040] font-['Outfit'] text-[16px] font-medium">
-                Past Purchases
-              </span>
-            </div>
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              className="group-hover:translate-x-1 transition"
-            >
-              <path
-                d="M7.5 5L12.5 10L7.5 15"
-                stroke="#8E8E8E"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-
-          <button
-            onClick={async () => {
-              try {
-                const likedItems = userData.likedProducts || [];
-                const fullProducts = await Promise.all(
-                  likedItems.map(async (item) => {
-                    // If it's already a full product object, return it
-                    if (typeof item === "object" && item.id) {
-                      return item;
-                    }
-                    // If it's a string ID, fetch the full product
-                    if (typeof item === "string") {
-                      try {
-                        const res = await fetch(
-                          `http://localhost:3001/products/${item}`
-                        );
-                        return await res.json();
-                      } catch (err) {
-                        console.error(`Error fetching product ${item}:`, err);
-                        return null;
-                      }
-                    }
-                    return null;
-                  })
-                );
-                // Filter out any null values
-                onNavigateToSaved(fullProducts.filter((p) => p !== null));
-              } catch (error) {
-                console.error("Error fetching saved products:", error);
-                onNavigateToSaved([]);
-              }
-            }}
-            className="w-full bg-white rounded-2xl shadow-md p-4 flex items-center justify-between hover:shadow-lg transition group"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#45ADA1]/10 flex items-center justify-center">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M20.84 4.61C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.57831 8.50903 2.9987 7.05 2.9987C5.59096 2.9987 4.19169 3.57831 3.16 4.61C2.1283 5.64169 1.54869 7.04097 1.54869 8.5C1.54869 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7563 11.2728 22.0329 10.6053C22.3095 9.93789 22.4518 9.22248 22.4518 8.5C22.4518 7.77752 22.3095 7.06211 22.0329 6.39467C21.7563 5.72723 21.351 5.12087 20.84 4.61Z"
-                    stroke="#45ADA1"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-              <span className="text-[#404040] font-['Outfit'] text-[16px] font-medium">
-                Liked Products
+                Certifications
               </span>
             </div>
             <svg
@@ -330,63 +221,64 @@ function UserProfile({
               <div className="w-10 h-10 rounded-full bg-[#45ADA1]/10 flex items-center justify-center">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path
-                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
                     stroke="#45ADA1"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="3"
+                  <path
+                    d="M12 6V12L16 14"
                     stroke="#45ADA1"
                     strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <span className="text-[#404040] font-['Outfit'] text-[16px] font-medium">
+                Sales History
+              </span>
+            </div>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              className="group-hover:translate-x-1 transition"
+            >
+              <path
+                d="M7.5 5L12.5 10L7.5 15"
+                stroke="#8E8E8E"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+
+          <button className="w-full bg-white rounded-2xl shadow-md p-4 flex items-center justify-between hover:shadow-lg transition group">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-[#45ADA1]/10 flex items-center justify-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M10.325 4.317C10.751 2.561 13.249 2.561 13.675 4.317C13.7389 4.5808 13.8642 4.82578 14.0407 5.032C14.2172 5.23822 14.4399 5.39985 14.6907 5.50375C14.9414 5.60764 15.2132 5.65085 15.4838 5.62987C15.7544 5.60889 16.0162 5.5243 16.248 5.383C17.791 4.443 19.558 6.209 18.618 7.753C18.4769 7.98466 18.3924 8.24634 18.3715 8.51677C18.3506 8.78721 18.3938 9.05877 18.4975 9.30938C18.6013 9.55999 18.7627 9.78258 18.9687 9.95905C19.1747 10.1355 19.4194 10.2609 19.683 10.325C21.439 10.751 21.439 13.249 19.683 13.675C19.4192 13.7389 19.1742 13.8642 18.968 14.0407C18.7618 14.2172 18.6001 14.4399 18.4963 14.6907C18.3924 14.9414 18.3491 15.2132 18.3701 15.4838C18.3911 15.7544 18.4757 16.0162 18.617 16.248C19.557 17.791 17.791 19.558 16.247 18.618C16.0153 18.4769 15.7537 18.3924 15.4832 18.3715C15.2128 18.3506 14.9412 18.3938 14.6906 18.4975C14.44 18.6013 14.2174 18.7627 14.0409 18.9687C13.8645 19.1747 13.7391 19.4194 13.675 19.683C13.249 21.439 10.751 21.439 10.325 19.683C10.2611 19.4192 10.1358 19.1742 9.95929 18.968C9.7828 18.7618 9.56011 18.6001 9.30935 18.4963C9.05859 18.3924 8.78683 18.3491 8.51621 18.3701C8.24559 18.3911 7.98375 18.4757 7.752 18.617C6.209 19.557 4.442 17.791 5.382 16.247C5.5231 16.0153 5.60755 15.7537 5.62848 15.4832C5.64942 15.2128 5.60624 14.9412 5.50247 14.6906C5.3987 14.44 5.23726 14.2174 5.03127 14.0409C4.82529 13.8645 4.58056 13.7391 4.317 13.675C2.561 13.249 2.561 10.751 4.317 10.325C4.5808 10.2611 4.82578 10.1358 5.032 9.95929C5.23822 9.7828 5.39985 9.56011 5.50375 9.30935C5.60764 9.05859 5.65085 8.78683 5.62987 8.51621C5.60889 8.24559 5.5243 7.98375 5.383 7.752C4.443 6.209 6.209 4.442 7.753 5.382C8.753 5.99 10.049 5.452 10.325 4.317Z"
+                    stroke="#45ADA1"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
+                    stroke="#45ADA1"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               </div>
               <span className="text-[#404040] font-['Outfit'] text-[16px] font-medium">
                 Settings
-              </span>
-            </div>
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              className="group-hover:translate-x-1 transition"
-            >
-              <path
-                d="M7.5 5L12.5 10L7.5 15"
-                stroke="#8E8E8E"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-
-          <button className="w-full bg-white rounded-2xl shadow-md p-4 flex items-center justify-between hover:shadow-lg transition group">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#45ADA1]/10 flex items-center justify-center">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="#45ADA1"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M12 16V12M12 8H12.01"
-                    stroke="#45ADA1"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
-              <span className="text-[#404040] font-['Outfit'] text-[16px] font-medium">
-                Help & Support
               </span>
             </div>
             <svg
@@ -414,8 +306,22 @@ function UserProfile({
               <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path
-                    d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"
-                    stroke="#ef4444"
+                    d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9"
+                    stroke="#EF4444"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M16 17L21 12L16 7"
+                    stroke="#EF4444"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M21 12H9"
+                    stroke="#EF4444"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -435,7 +341,7 @@ function UserProfile({
             >
               <path
                 d="M7.5 5L12.5 10L7.5 15"
-                stroke="#ef4444"
+                stroke="#EF4444"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -448,4 +354,4 @@ function UserProfile({
   );
 }
 
-export default UserProfile;
+export default ProducerProfile;

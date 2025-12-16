@@ -51,10 +51,14 @@ function HomeConsumer() {
         if (userId) {
           const userRes = await fetch(`${API_URL}/users/${userId}`);
           const userData = await userRes.json();
-          const likedProdIds = userData.likedProducts?.map((p) => p.id) || [];
+          // Handle both string IDs and objects
+          const likedProdIds =
+            userData.likedProducts?.map((p) =>
+              typeof p === "string" ? p : p.id
+            ) || [];
           const likedProdcerIds =
             userData.likedProducts
-              ?.filter((p) => p.producerId)
+              ?.filter((p) => typeof p === "object" && p.producerId)
               .map((p) => p.producerId) || [];
           setLikedProductIds(likedProdIds);
           setLikedProducerIds(likedProdcerIds);
@@ -77,10 +81,14 @@ function HomeConsumer() {
       try {
         const userRes = await fetch(`${API_URL}/users/${userId}`);
         const userData = await userRes.json();
-        const likedProdIds = userData.likedProducts?.map((p) => p.id) || [];
+        // Handle both string IDs and objects
+        const likedProdIds =
+          userData.likedProducts?.map((p) =>
+            typeof p === "string" ? p : p.id
+          ) || [];
         const likedProdcerIds =
           userData.likedProducts
-            ?.filter((p) => p.producerId)
+            ?.filter((p) => typeof p === "object" && p.producerId)
             .map((p) => p.producerId) || [];
         setLikedProductIds(likedProdIds);
         setLikedProducerIds(likedProdcerIds);
@@ -97,7 +105,31 @@ function HomeConsumer() {
       try {
         const userRes = await fetch(`${API_URL}/users/${userId}`);
         const userData = await userRes.json();
-        setSavedProductsData(userData.likedProducts || []);
+
+        // Handle both string IDs and full product objects
+        const likedItems = userData.likedProducts || [];
+        const fullProducts = await Promise.all(
+          likedItems.map(async (item) => {
+            // If it's already a full product object, return it
+            if (typeof item === "object" && item.id) {
+              return item;
+            }
+            // If it's a string ID, fetch the full product
+            if (typeof item === "string") {
+              try {
+                const res = await fetch(`${API_URL}/products/${item}`);
+                return await res.json();
+              } catch (err) {
+                console.error(`Error fetching product ${item}:`, err);
+                return null;
+              }
+            }
+            return null;
+          })
+        );
+
+        // Filter out any null values from failed fetches
+        setSavedProductsData(fullProducts.filter((p) => p !== null));
         setDetailView("saved");
       } catch (error) {
         console.error("Error fetching saved products:", error);
@@ -121,23 +153,14 @@ function HomeConsumer() {
       let updatedLikedProducts;
 
       if (isLiked) {
-        // Remove from liked products
+        // Remove from liked products (handle both string IDs and objects)
         updatedLikedProducts = userData.likedProducts.filter(
-          (p) => p.id !== product.id
+          (p) => (typeof p === "string" ? p : p.id) !== product.id
         );
         setLikedProductIds(likedProductIds.filter((id) => id !== product.id));
       } else {
-        // Add to liked products
-        const likedProduct = {
-          id: product.id,
-          name: product.name,
-          producer:
-            products.find((p) => p.producerId)?.producer || "Local Producer",
-          price: product.price,
-          tags: product.tags || [],
-          image: product.image,
-        };
-        updatedLikedProducts = [...userData.likedProducts, likedProduct];
+        // Add to liked products (store only the ID)
+        updatedLikedProducts = [...userData.likedProducts, product.id];
         setLikedProductIds([...likedProductIds, product.id]);
       }
 
@@ -367,7 +390,7 @@ function HomeConsumer() {
     );
   }
 
-    if (detailView === "collection") {
+  if (detailView === "collection") {
     return (
       <CollectionPage
         onBack={() => setDetailView("rewards")}
@@ -377,7 +400,6 @@ function HomeConsumer() {
       />
     );
   }
-
 
   if (detailView === "spendPoints") {
     return (

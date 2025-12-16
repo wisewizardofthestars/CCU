@@ -30,9 +30,11 @@ const RegisterConsumer = ({ onBack, onLoginClick, onRegisterSuccess }) => {
 
     try {
       // Create new user in database
+      const userType = isConsumer ? "consumer" : "producer";
       const newUser = {
         name: formData.username,
         email: formData.email,
+        userType: userType,
         joined: new Date().toLocaleDateString("en-US", {
           month: "long",
           year: "numeric",
@@ -44,6 +46,18 @@ const RegisterConsumer = ({ onBack, onLoginClick, onRegisterSuccess }) => {
         likedProducts: [],
       };
 
+      // Add producer-specific fields if registering as producer
+      if (!isConsumer) {
+        newUser.producerId = Math.floor(Math.random() * 10000).toString();
+        newUser.farmName = `${formData.username}'s Farm`;
+        newUser.location = "Location TBD";
+        newUser.totalProducts = 0;
+        newUser.totalSales = 0;
+        newUser.rating = 5.0;
+        newUser.certifications = [];
+        newUser.products = [];
+      }
+
       const response = await fetch("http://localhost:3001/users", {
         method: "POST",
         headers: {
@@ -54,9 +68,10 @@ const RegisterConsumer = ({ onBack, onLoginClick, onRegisterSuccess }) => {
 
       const createdUser = await response.json();
       localStorage.setItem("currentUserId", createdUser.id);
+      localStorage.setItem("userType", userType);
 
       if (onRegisterSuccess) {
-        onRegisterSuccess();
+        onRegisterSuccess(userType);
       }
     } catch (error) {
       console.error("Registration error:", error);
@@ -166,47 +181,53 @@ const RegisterConsumer = ({ onBack, onLoginClick, onRegisterSuccess }) => {
       </div>
 
       {/* Consumer/Producer Toggle */}
-      <div className="absolute left-[67px] top-[170px] w-[214px] h-[32px]">
-        <button
-          onClick={() => setIsConsumer(true)}
-          className={`absolute left-0 top-0 w-[108px] h-[32px] rounded-[10px] border-2 flex items-center justify-center transition ${
-            isConsumer
-              ? "border-[#45ADA1] bg-[#45ADA1]"
-              : "border-[#D9D9D9] bg-white"
-          }`}
-        >
-          <span
-            className={`text-center text-[18px] font-normal tracking-[-0.24px] ${
-              isConsumer ? "text-white" : "text-black"
+      <div className="absolute left-[50px] top-[170px] w-[260px] h-[45px] bg-gray-100 rounded-[15px] p-[4px] shadow-inner">
+        <div className="relative w-full h-full flex">
+          {/* Sliding background indicator */}
+          <div
+            className={`absolute top-0 w-[126px] h-full bg-gradient-to-r from-[#45ADA1] to-[#3d9a8f] rounded-[12px] shadow-lg transition-all duration-300 ease-out ${
+              isConsumer ? "left-0" : "left-[126px]"
             }`}
-            style={{
-              fontFamily:
-                "Roboto, -apple-system, Roboto, Helvetica, sans-serif",
-            }}
+          />
+
+          {/* Consumer Button */}
+          <button
+            onClick={() => setIsConsumer(true)}
+            className="relative z-10 flex-1 flex items-center justify-center gap-1 transition-all duration-200 hover:scale-105"
           >
-            Consumer
-          </span>
-        </button>
-        <button
-          onClick={() => setIsConsumer(false)}
-          className={`absolute left-[98px] top-0 w-[116px] h-[32px] rounded-[10px] border-2 flex items-center justify-center transition ${
-            !isConsumer
-              ? "border-[#45ADA1] bg-[#45ADA1]"
-              : "border-[#D9D9D9] bg-white"
-          }`}
-        >
-          <span
-            className={`text-center text-[18px] font-normal tracking-[-0.24px] ${
-              !isConsumer ? "text-white" : "text-black"
-            }`}
-            style={{
-              fontFamily:
-                "Roboto, -apple-system, Roboto, Helvetica, sans-serif",
-            }}
+            <span className="text-[20px]">🛒</span>
+            <span
+              className={`text-[16px] font-semibold tracking-[-0.24px] transition-colors duration-300 ${
+                isConsumer ? "text-white" : "text-gray-500"
+              }`}
+              style={{
+                fontFamily:
+                  "Outfit, -apple-system, Roboto, Helvetica, sans-serif",
+              }}
+            >
+              Consumer
+            </span>
+          </button>
+
+          {/* Producer Button */}
+          <button
+            onClick={() => setIsConsumer(false)}
+            className="relative z-10 flex-1 flex items-center justify-center gap-1 transition-all duration-200 hover:scale-105"
           >
-            Producer
-          </span>
-        </button>
+            <span className="text-[20px]">👨‍🌾</span>
+            <span
+              className={`text-[16px] font-semibold tracking-[-0.24px] transition-colors duration-300 ${
+                !isConsumer ? "text-white" : "text-gray-500"
+              }`}
+              style={{
+                fontFamily:
+                  "Outfit, -apple-system, Roboto, Helvetica, sans-serif",
+              }}
+            >
+              Producer
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* Username Field */}

@@ -22,8 +22,9 @@ const LoginForm = ({ onBack, onLoginSuccess, onRegisterClick }) => {
       const user = users.find((u) => u.email === formData.email);
 
       if (user) {
-        // Store user ID in localStorage
+        // Store user ID and user type in localStorage
         localStorage.setItem("currentUserId", user.id);
+        localStorage.setItem("userType", user.userType || "consumer");
         onLoginSuccess();
       } else {
         alert("No account found with this email. Please register first.");

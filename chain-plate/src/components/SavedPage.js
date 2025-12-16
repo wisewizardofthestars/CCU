@@ -1,12 +1,15 @@
 import { on } from "process";
 import React, { useState } from "react";
 
-function SavedPage({ onBack, savedProducts = [], onProductUnliked,
+function SavedPage({
+  onBack,
+  savedProducts = [],
+  onProductUnliked,
   onNavigateToHome,
   onNavigateToMap,
   onNavigateToSaved,
-    onNavigateToRewards,
- }) {
+  onNavigateToRewards,
+}) {
   const [displayedProducts, setDisplayedProducts] = useState(savedProducts);
 
   const handleUnlike = async (productId) => {
@@ -17,8 +20,9 @@ function SavedPage({ onBack, savedProducts = [], onProductUnliked,
       const response = await fetch(`http://localhost:3001/users/${userId}`);
       const userData = await response.json();
 
+      // Handle both string IDs and objects in likedProducts
       const updatedLikedProducts = userData.likedProducts.filter(
-        (p) => p.id !== productId
+        (p) => (typeof p === "string" ? p : p.id) !== productId
       );
 
       await fetch(`http://localhost:3001/users/${userId}`, {
@@ -42,7 +46,7 @@ function SavedPage({ onBack, savedProducts = [], onProductUnliked,
   };
   return (
     <div className="w-full max-w-[360px] mx-auto h-screen bg-white relative flex flex-col font-['Outfit']">
-     {/* Status Bar */}
+      {/* Status Bar */}
       <div className="w-full h-[37px] border-b border-[#D9D9D9] bg-white flex items-center justify-between px-2 flex-shrink-0 z-20">
         <div className="text-base font-roboto text-black">16:20</div>
         <div className="flex items-center gap-[5px]">
@@ -135,14 +139,15 @@ function SavedPage({ onBack, savedProducts = [], onProductUnliked,
                     {product.producer}
                   </p>
                   <div className="flex gap-1.5 flex-wrap">
-                    {product.tags.map((tag, index) => (
-                      <span
-                        key={index}
-                        className="px-2.5 py-1 bg-[#45ADA1]/10 text-[#45ADA1] rounded-full text-[11px] font-['Outfit'] font-medium"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    {product.tags &&
+                      product.tags.map((tag, index) => (
+                        <span
+                          key={index}
+                          className="px-2.5 py-1 bg-[#45ADA1]/10 text-[#45ADA1] rounded-full text-[11px] font-['Outfit'] font-medium"
+                        >
+                          {tag}
+                        </span>
+                      ))}
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-2">
@@ -234,44 +239,37 @@ function SavedPage({ onBack, savedProducts = [], onProductUnliked,
           onClick={onNavigateToSaved}
           className="relative flex flex-col items-center gap-1 group"
         >
-         <div className="w-12 h-12 rounded-full bg-[#45ADA1] flex items-center justify-center shadow-lg group-hover:scale-110 transition">
-           
-                 <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-            <path
-              d="M27.7867 6.14666C27.1057 5.46533 26.2971 4.92485 25.4071 4.5561C24.5172 4.18735 23.5633 3.99756 22.6 3.99756C21.6367 3.99756 20.6828 4.18735 19.7929 4.5561C18.9029 4.92485 18.0943 5.46533 17.4133 6.14666L16 7.55999L14.5867 6.14666C13.2111 4.77107 11.3454 3.99827 9.4 3.99827C7.45462 3.99827 5.58892 4.77107 4.21333 6.14666C2.83774 7.52225 2.06494 9.38795 2.06494 11.3333C2.06494 13.2787 2.83774 15.1444 4.21333 16.52L16 28.3067L27.7867 16.52C28.468 15.839 29.0085 15.0304 29.3772 14.1405C29.746 13.2505 29.9358 12.2966 29.9358 11.3333C29.9358 10.37 29.746 9.41613 29.3772 8.52619C29.0085 7.63624 28.468 6.82767 27.7867 6.14666Z"
-              stroke="#ffffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          </div>
-
-  
-        </button>
-
-        <button
-          onClick={onNavigateToRewards}
-            className="flex flex-col items-center gap-1 hover:scale-110 transition"
-        >
-      
-          
-           <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+          <div className="w-12 h-12 rounded-full bg-[#45ADA1] flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
               <path
-                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-                stroke="#8E8E8E"
+                d="M27.7867 6.14666C27.1057 5.46533 26.2971 4.92485 25.4071 4.5561C24.5172 4.18735 23.5633 3.99756 22.6 3.99756C21.6367 3.99756 20.6828 4.18735 19.7929 4.5561C18.9029 4.92485 18.0943 5.46533 17.4133 6.14666L16 7.55999L14.5867 6.14666C13.2111 4.77107 11.3454 3.99827 9.4 3.99827C7.45462 3.99827 5.58892 4.77107 4.21333 6.14666C2.83774 7.52225 2.06494 9.38795 2.06494 11.3333C2.06494 13.2787 2.83774 15.1444 4.21333 16.52L16 28.3067L27.7867 16.52C28.468 15.839 29.0085 15.0304 29.3772 14.1405C29.746 13.2505 29.9358 12.2966 29.9358 11.3333C29.9358 10.37 29.746 9.41613 29.3772 8.52619C29.0085 7.63624 28.468 6.82767 27.7867 6.14666Z"
+                stroke="#ffffffff"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
             </svg>
-                  <span className="text-[10px] text-gray-400 font-['Outfit']">
+          </div>
+        </button>
+
+        <button
+          onClick={onNavigateToRewards}
+          className="flex flex-col items-center gap-1 hover:scale-110 transition"
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+              stroke="#8E8E8E"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span className="text-[10px] text-gray-400 font-['Outfit']">
             Rewards
           </span>
-
         </button>
       </div>
-
     </div>
   );
 }

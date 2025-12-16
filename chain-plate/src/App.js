@@ -4,6 +4,7 @@ import ProductPage from "./components/ProductPage";
 import ProducerDashboard from "./components/ProducerDashboard";
 import LoginPage from "./components/LoginPage";
 import HomeConsumer from "./components/HomeConsumer";
+import HomeProducer from "./components/HomeProducer";
 import LoadingPage from "./components/LoadingPage";
 import LoginRegister from "./components/LoginRegister";
 import RegisterConsumer from "./components/RegisterConsumer";
@@ -13,12 +14,16 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [view, setView] = useState("consumer"); // 'consumer' or 'producer'
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userType, setUserType] = useState("consumer"); // Track user type
 
   // Check for existing login on mount
   useEffect(() => {
     const userId = localStorage.getItem("currentUserId");
+    const storedUserType = localStorage.getItem("userType");
     if (userId) {
       setIsLoggedIn(true);
+      setUserType(storedUserType || "consumer");
+      setView(storedUserType || "consumer");
     }
   }, []);
   const [consumerView, setConsumerView] = useState("home"); // 'home' or 'scanner'
@@ -55,8 +60,10 @@ function App() {
         <LoginForm
           onBack={() => setAuthView("landing")}
           onLoginSuccess={() => {
+            const storedUserType = localStorage.getItem("userType");
             setIsLoggedIn(true);
-            setView("consumer");
+            setUserType(storedUserType || "consumer");
+            setView(storedUserType || "consumer");
           }}
           onRegisterClick={() => setAuthView("register")}
         />
@@ -66,13 +73,23 @@ function App() {
         <RegisterConsumer
           onBack={() => setAuthView("landing")}
           onLoginClick={() => setAuthView("login")}
-          onRegisterSuccess={() => {
+          onRegisterSuccess={(registeredUserType) => {
+            const finalUserType =
+              registeredUserType ||
+              localStorage.getItem("userType") ||
+              "consumer";
             setIsLoggedIn(true);
-            setView("consumer");
+            setUserType(finalUserType);
+            setView(finalUserType);
           }}
         />
       );
     }
+  }
+
+  // Route based on user type
+  if (userType === "producer") {
+    return <HomeProducer />;
   }
 
   return (
